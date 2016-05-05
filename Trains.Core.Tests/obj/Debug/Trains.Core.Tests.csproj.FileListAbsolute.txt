@@ -1,0 +1,9 @@
+c:\users\farha\documents\visual studio 2015\Projects\TrainsCSharpFT\Trains.Core.Tests\bin\Debug\Trains.Core.Tests.dll
+c:\users\farha\documents\visual studio 2015\Projects\TrainsCSharpFT\Trains.Core.Tests\bin\Debug\Trains.Core.Tests.pdb
+c:\users\farha\documents\visual studio 2015\Projects\TrainsCSharpFT\Trains.Core.Tests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+c:\users\farha\documents\visual studio 2015\Projects\TrainsCSharpFT\Trains.Core.Tests\bin\Debug\Trains.Core.dll
+c:\users\farha\documents\visual studio 2015\Projects\TrainsCSharpFT\Trains.Core.Tests\bin\Debug\Trains.Core.pdb
+c:\users\farha\documents\visual studio 2015\Projects\TrainsCSharpFT\Trains.Core.Tests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
+c:\users\farha\documents\visual studio 2015\Projects\TrainsCSharpFT\Trains.Core.Tests\obj\Debug\Trains.Core.Tests.csprojResolveAssemblyReference.cache
+c:\users\farha\documents\visual studio 2015\Projects\TrainsCSharpFT\Trains.Core.Tests\obj\Debug\Trains.Core.Tests.dll
+c:\users\farha\documents\visual studio 2015\Projects\TrainsCSharpFT\Trains.Core.Tests\obj\Debug\Trains.Core.Tests.pdb
