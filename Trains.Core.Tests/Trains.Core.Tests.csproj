@@ -51,10 +51,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DataStructures\GraphTests\GraphTestBase.cs" />
-    <Compile Include="DataStructures\GraphTests\WhenCreatedUsingValidChildNodesListThenCallingSize.cs" />
-    <Compile Include="DataStructures\GraphTests\WhenCreatedUsingValidIntValueThenCallingSize.cs" />
-    <Compile Include="DataStructures\GraphTests\WhenCreatedWithEmptyChildNodesList.cs" />
-    <Compile Include="DataStructures\GraphTests\WhenCreatedWithSizeZero.cs" />
+    <Compile Include="Process\NeighborsId\NeighborsIdTestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,88 +1,94 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Trains.Core.DataStructures
 {
-    /// <summary>Represents a directed unweighted graph structure
-    /// </summary>
-    public class Graph
+    public class Graph<T> 
     {
-        // Contains the child nodes for each vertex of the graph
-        // assuming that the vertices are numbered 0 ... Size-1
-        private List<int>[] _childNodes;
+        private NodeList<T> nodeSet;
 
-        /// <summary>Constructs an empty graph of given size</summary>
-        /// <param name="size">number of vertices</param>
-        public Graph(int size)
+        public Graph() : this(null) { }
+        public Graph(NodeList<T> nodeSet)
         {
-            if (size == 0)
-                throw new ArgumentException("size needs to be larger than zero.");
+            if (nodeSet == null)
+                this.nodeSet = new NodeList<T>();
+            else
+                this.nodeSet = nodeSet;
+        }
 
-            _childNodes = new List<int>[size];
-            for (int i = 0; i < size; i++)
+        public void AddNode(GraphNode<T> node)
+        {
+            // adds a node to the graph
+            nodeSet.Add(node);
+        }
+
+        public void AddNode(T value)
+        {
+            // adds a node to the graph
+            nodeSet.Add(new GraphNode<T>(value));
+        }
+
+        public void AddDirectedEdge(GraphNode<T> from, GraphNode<T> to, int cost)
+        {
+            from.Neighbors.Add(to);
+            from.Costs.Add(cost);
+        }
+
+        public void AddUndirectedEdge(GraphNode<T> from, GraphNode<T> to, int cost)
+        {
+            from.Neighbors.Add(to);
+            from.Costs.Add(cost);
+
+            to.Neighbors.Add(from);
+            to.Costs.Add(cost);
+        }
+
+        public bool Contains(T value)
+        {
+            return nodeSet.FindByValue(value) != null;
+        }
+
+        public bool Remove(T value)
+        {
+            // first remove the node from the nodeset
+            GraphNode<T> nodeToRemove = (GraphNode<T>)nodeSet.FindByValue(value);
+            if (nodeToRemove == null)
+                // node wasn't found
+                return false;
+
+            // otherwise, the node was found
+            nodeSet.Remove(nodeToRemove);
+
+            // enumerate through each node in the nodeSet, removing edges to this node
+            foreach (GraphNode<T> gnode in nodeSet)
             {
-                // Assing an empty list of adjacents for each vertex
-                _childNodes[i] = new List<int>();
+                int index = gnode.Neighbors.IndexOf(nodeToRemove);
+                if (index != -1)
+                {
+                    // remove the reference to the node and associated cost
+                    gnode.Neighbors.RemoveAt(index);
+                    gnode.Costs.RemoveAt(index);
+                }
+            }
+
+            return true;
+        }
+
+        public NodeList<T> Nodes
+        {
+            get
+            {
+                return nodeSet;
             }
         }
 
-        /// <summary>Constructs a graph by given list of
-        /// child nodes (successors) for each vertex</summary>
-        /// <param name="childNodes">children for each node</param>
-        public Graph(List<int>[] childNodes)
+        public int Count
         {
-            if (childNodes.Any() == false)
-                throw new ArgumentException("child nodes cannot be empty.");
-
-            _childNodes = childNodes;
-        }
-
-        /// <summary>
-        /// Returns the size of the graph (number of vertices)
-        /// </summary>
-        public int Size
-        {
-            get { return _childNodes.Length; }
-        }
-
-        /// <summary>Adds new edge from u to v</summary>
-        /// <param name="u">the starting vertex</param>
-        /// <param name="v">the ending vertex</param>
-        public void AddEdge(int u, int v)
-        {
-            _childNodes[u].Add(v);
-        }
-
-        /// <summary>Removes the edge from u to v if such exists
-        /// </summary>
-        /// <param name="u">the starting vertex</param>
-        /// <param name="v">the ending vertex</param>
-        public void RemoveEdge(int u, int v)
-        {
-            _childNodes[u].Remove(v);
-        }
-
-        /// <summary>
-        /// Checks whether there is an edge between vertex u and v
-        /// </summary>
-        /// <param name="u">the starting vertex</param>
-        /// <param name="v">the ending vertex</param>
-        /// <returns>true if there is an edge between
-        /// vertex u and vertex v</returns>
-        public bool HasEdge(int u, int v)
-        {
-            bool hasEdge = _childNodes[u].Contains(v);
-            return hasEdge;
-        }
-
-        /// <summary>Returns the successors of a given vertex
-        /// </summary>
-        /// <param name="v">the vertex</param>
-        /// <returns>list of all successors of vertex v</returns>
-        public IList<int> GetSuccessors(int v)
-        {
-            return _childNodes[v];
+            get { return nodeSet.Count; }
         }
     }
 }
