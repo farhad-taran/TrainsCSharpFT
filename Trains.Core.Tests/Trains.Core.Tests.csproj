@@ -51,7 +51,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DataStructures\GraphTests\GraphTestBase.cs" />
-    <Compile Include="Process\NeighborsId\NeighborsIdTestBase.cs" />
+    <Compile Include="Process\NeighborsIdTests\NeighborsIdTestBase.cs" />
+    <Compile Include="Process\StringInputProcessorTests\StringInputProcessorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

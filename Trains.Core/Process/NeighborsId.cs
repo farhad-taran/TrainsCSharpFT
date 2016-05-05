@@ -26,7 +26,7 @@ namespace Trains.Core.Process
         public NeighborsId(string nodeId)
         {
             if (nodeId == null)
-                throw new ArgumentNullException($"{nameof(nodeId)} cannot be null.");
+                throw new ArgumentNullException(nameof(nodeId));
             var match = regex.Match(nodeId);
             if (match.Success == false)
                 throw new ArgumentException("input must be two uppercase characters between A and E followed by an integer cost.eg AE2.");
