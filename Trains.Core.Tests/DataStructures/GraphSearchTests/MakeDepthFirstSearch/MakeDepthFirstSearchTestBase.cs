@@ -16,17 +16,15 @@ namespace Trains.Core.Tests.DataStructures.GraphSearchTests.MakeDepthFirstSearch
 
         protected virtual char NodeToFind => ' ';
 
-        protected Graph<char> NewEmptyGraph => new Graph<char>(new List<GraphNode<char>>());
-
         [TestInitialize]
         public void BaseInitialize()
         {
-            GraphSearchResult = GraphSearch.MakeDepthFirstSearch<char>(NodeToFind, MakeGraph());
+            GraphSearchResult = MakeGraph().MakeDepthFirstSearch(NodeToFind);
         }
 
         protected virtual Graph<char> MakeGraph()
         {
-            return NewEmptyGraph;
+            return new Graph<char>();
         }
     }
 
@@ -35,7 +33,7 @@ namespace Trains.Core.Tests.DataStructures.GraphSearchTests.MakeDepthFirstSearch
     {
         protected override Graph<char> MakeGraph()
         {
-            return NewEmptyGraph;
+            return new Graph<char>();
         }
 
         [TestMethod]
@@ -78,7 +76,7 @@ namespace Trains.Core.Tests.DataStructures.GraphSearchTests.MakeDepthFirstSearch
         protected override char NodeToFind => 'Z';
         protected override Graph<char> MakeGraph()
         {
-            var graph = NewEmptyGraph;
+            var graph = new Graph<char>();
             var a = new GraphNode<char>('A');
             var b = new GraphNode<char>('B');
             graph.AddNode(a);
@@ -107,7 +105,7 @@ namespace Trains.Core.Tests.DataStructures.GraphSearchTests.MakeDepthFirstSearch
 
         protected override Graph<char> MakeGraph()
         {
-            var graph = NewEmptyGraph;
+            var graph = new Graph<char>();
             var a = new GraphNode<char>('A');
             var b = new GraphNode<char>('B');
             graph.AddNode(a);
@@ -135,7 +133,7 @@ namespace Trains.Core.Tests.DataStructures.GraphSearchTests.MakeDepthFirstSearch
         protected override char NodeToFind => 'A';
         protected override Graph<char> MakeGraph()
         {
-            var graph = NewEmptyGraph;
+            var graph = new Graph<char>();
             var a = new GraphNode<char>('A');
             var b = new GraphNode<char>('B');
             var c = new GraphNode<char>('C');
@@ -184,7 +182,7 @@ namespace Trains.Core.Tests.DataStructures.GraphSearchTests.MakeDepthFirstSearch
         protected override char NodeToFind => 'B';
         protected override Graph<char> MakeGraph()
         {
-            var graph = NewEmptyGraph;
+            var graph = new Graph<char>();
             var a = new GraphNode<char>('A');
             var b = new GraphNode<char>('B');
             var c = new GraphNode<char>('C');
@@ -225,5 +223,11 @@ namespace Trains.Core.Tests.DataStructures.GraphSearchTests.MakeDepthFirstSearch
         {
             Assert.AreEqual(null, GraphSearchResult.GetRouteCost('A'));
         }
+    }
+
+    [TestClass]
+    public class MyTestClass
+    {
+
     }
 }

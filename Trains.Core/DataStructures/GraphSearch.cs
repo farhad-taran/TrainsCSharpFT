@@ -8,9 +8,19 @@ using Trains.Core.DataStructures;
 namespace Trains.DataStructures
 {
     /// <summary>
-    /// since we dont have any state we can fall back to using static classes
-    /// and methods for the search operation, if we need to mock these function 
-    /// calls then we can use delgates that represent the signature of these methods
+    /// 
+    /// note to reader: I usually do not like to put comments in my code unless I am doing something really complex
+    /// or using a framework that is not used by many people in the industry, and also I would like to believe 
+    /// that my code can be easily read and undrestood by anyone who comes across it but for the purposes
+    /// of this excerices I felt it necessary so to describe the intention behind the implementation.
+    /// 
+    /// 
+    /// since the actual work of searching is not really part of the data structure itself, I didnt feel like it
+    /// should be part of that class and is a seprate concern, also we dont have any state and we only have a single
+    /// public method that defines the interface of this class to its consumers, and currently we only implement a 
+    /// single search strategy which is depth first, so we only have a single implementation of a conceptual interface,
+    /// we can fall back to using static classes and methods for the search operation, if we need to mock these
+    /// function calls then we can use delgates that represent the signature of these methods
     /// in conjuntion with a mocking framework or provide a fake implementation in code,
     /// although it is preferable to only mock functions that could potentially cause any 
     /// substantial delay (network, or I/O calls) in process that runs the tests and if that is not
@@ -22,21 +32,21 @@ namespace Trains.DataStructures
     /// </summary>
     public static class GraphSearch
     {
-        public static GraphSearchResult<T> MakeDepthFirstSearch<T>(T startNode, Graph<T> graph)
+        public static GraphSearchResult<T> MakeDepthFirstSearch<T>(this Graph<T> graph, T startNode)
         {
             if (graph == null)
-                return GraphSearchResult<T>.NotFound("Graph is null.");
+                return GraphSearchResult<T>.Fail("Graph is null.");
             if (graph.Any() == false)
-                return GraphSearchResult<T>.NotFound("Graph is empty.");
+                return GraphSearchResult<T>.Fail("Graph is empty.");
 
             GraphNode<T> root = graph.GetNode(startNode);
 
             if (root == null)
-                return GraphSearchResult<T>.NotFound("Graph does not contain node.");
+                return GraphSearchResult<T>.Fail("Graph does not contain node.");
 
             var nodes = DepthFirstSearch(root, graph);
 
-            return GraphSearchResult<T>.Found(root, nodes);
+            return GraphSearchResult<T>.Ok(root, nodes);
         }
 
         private static IEnumerable<GraphNode<T>> DepthFirstSearch<T>(GraphNode<T> startNode, Graph<T> graph)
@@ -53,8 +63,7 @@ namespace Trains.DataStructures
 
                 yield return current;
 
-                var neighbours = current.Neighbors
-                                      .Where(n => !visited.Contains(n));
+                var neighbours = current.Neighbors.Where(n => !visited.Contains(n));
 
                 // If you don't care about the left-to-right order, remove the Reverse
                 foreach (var neighbour in neighbours.Reverse())
@@ -111,12 +120,12 @@ namespace Trains.DataStructures
             return (routeCosts.TryGetValue(nodeKey, out cost)) ? cost : (int?)null;
         }
 
-        internal static GraphSearchResult<T> NotFound(string message)
+        internal static GraphSearchResult<T> Fail(string message)
         {
             return new GraphSearchResult<T>(null, null, message);
         }
 
-        internal static GraphSearchResult<T> Found(GraphNode<T> root, IEnumerable<GraphNode<T>> routes)
+        internal static GraphSearchResult<T> Ok(GraphNode<T> root, IEnumerable<GraphNode<T>> routes)
         {
             return new GraphSearchResult<T>(root, routes, null);
         }
