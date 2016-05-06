@@ -61,6 +61,10 @@
       <Name>Trains.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DataStructures\GraphNodeTests\" />
+    <Folder Include="DataStructures\NodeListTests\" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

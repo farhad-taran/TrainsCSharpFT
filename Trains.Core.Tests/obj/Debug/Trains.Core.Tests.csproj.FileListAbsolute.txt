@@ -16,3 +16,12 @@ C:\Users\farha\Documents\TrainsCSharpFT\Trains.Core.Tests\bin\Debug\Trains.Core.
 C:\Users\farha\Documents\TrainsCSharpFT\Trains.Core.Tests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
 C:\Users\farha\Documents\TrainsCSharpFT\Trains.Core.Tests\obj\Debug\Trains.Core.Tests.dll
 C:\Users\farha\Documents\TrainsCSharpFT\Trains.Core.Tests\obj\Debug\Trains.Core.Tests.pdb
+C:\Users\X\Documents\TrainsCSharpFT\Trains.Core.Tests\bin\Debug\Trains.Core.Tests.dll
+C:\Users\X\Documents\TrainsCSharpFT\Trains.Core.Tests\bin\Debug\Trains.Core.Tests.pdb
+C:\Users\X\Documents\TrainsCSharpFT\Trains.Core.Tests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\X\Documents\TrainsCSharpFT\Trains.Core.Tests\bin\Debug\Trains.Core.dll
+C:\Users\X\Documents\TrainsCSharpFT\Trains.Core.Tests\bin\Debug\Trains.Core.pdb
+C:\Users\X\Documents\TrainsCSharpFT\Trains.Core.Tests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
+C:\Users\X\Documents\TrainsCSharpFT\Trains.Core.Tests\obj\Debug\Trains.Core.Tests.csprojResolveAssemblyReference.cache
+C:\Users\X\Documents\TrainsCSharpFT\Trains.Core.Tests\obj\Debug\Trains.Core.Tests.dll
+C:\Users\X\Documents\TrainsCSharpFT\Trains.Core.Tests\obj\Debug\Trains.Core.Tests.pdb
