@@ -45,6 +45,7 @@
     <Compile Include="DataStructures\Node.cs" />
     <Compile Include="DataStructures\NodeList.cs" />
     <Compile Include="Process\CommandBase.cs" />
+    <Compile Include="DataStructures\GraphSearch.cs" />
     <Compile Include="Process\NeighborsId.cs" />
     <Compile Include="Process\StringInputProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

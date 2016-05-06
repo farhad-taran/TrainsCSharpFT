@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Trains.Core.DataStructures
 {
-    public class Graph<T> 
+    public class Graph<T>
     {
         private NodeList<T> nodeSet;
 
@@ -26,12 +26,6 @@ namespace Trains.Core.DataStructures
             nodeSet.Add(node);
         }
 
-        public void AddNode(T value)
-        {
-            // adds a node to the graph
-            nodeSet.Add(new GraphNode<T>(value));
-        }
-
         public void AddDirectedEdge(GraphNode<T> from, GraphNode<T> to, int cost)
         {
             from.Neighbors.Add(to);
@@ -47,9 +41,14 @@ namespace Trains.Core.DataStructures
             to.Costs.Add(cost);
         }
 
-        public bool Contains(T value)
+        public bool Any()
         {
-            return nodeSet.FindByValue(value) != null;
+            return nodeSet.Any();
+        }
+
+        public bool GetNode(T value)
+        {
+            return nodeSet.FindByValue(value);
         }
 
         public bool Remove(T value)

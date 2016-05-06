@@ -50,6 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="DataStructures\GraphSearchTests\MakeDepthFirstSearch\MakeDepthFirstSearchTestBase.cs" />
     <Compile Include="DataStructures\GraphTests\GraphTestBase.cs" />
     <Compile Include="Process\NeighborsIdTests\NeighborsIdTestBase.cs" />
     <Compile Include="Process\StringInputProcessorTests\StringInputProcessorTests.cs" />

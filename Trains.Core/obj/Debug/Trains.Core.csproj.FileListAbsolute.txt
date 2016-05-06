@@ -12,3 +12,4 @@ C:\Users\X\Documents\TrainsCSharpFT\Trains.Core\bin\Debug\Trains.Core.pdb
 C:\Users\X\Documents\TrainsCSharpFT\Trains.Core\obj\Debug\Trains.Core.csprojResolveAssemblyReference.cache
 C:\Users\X\Documents\TrainsCSharpFT\Trains.Core\obj\Debug\Trains.Core.dll
 C:\Users\X\Documents\TrainsCSharpFT\Trains.Core\obj\Debug\Trains.Core.pdb
+C:\Users\farha\Documents\TrainsCSharpFT\Trains.Core\obj\Debug\Trains.Core.csprojResolveAssemblyReference.cache
