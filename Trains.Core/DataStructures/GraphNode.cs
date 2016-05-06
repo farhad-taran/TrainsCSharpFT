@@ -6,32 +6,21 @@ using System.Threading.Tasks;
 
 namespace Trains.Core.DataStructures
 {
-    public class GraphNode<T> : Node<T>
+    public class GraphNode<T> 
     {
         private List<int> costs;
+        private T data;
+        private List<GraphNode<T>> neighbors = null;
 
-        public GraphNode(T value) : base(value) { }
-
-        new public NodeList<T> Neighbors
+        public GraphNode(T value)
         {
-            get
-            {
-                if (base.Neighbors == null)
-                    base.Neighbors = new NodeList<T>();
-
-                return base.Neighbors;
-            }
+            this.data = value;
+            this.neighbors = new List<GraphNode<T>>();
+            this.costs = new List<int>();
         }
 
-        public List<int> Costs
-        {
-            get
-            {
-                if (costs == null)
-                    costs = new List<int>();
-
-                return costs;
-            }
-        }
+        public List<GraphNode<T>> Neighbors => neighbors;
+        public List<int> Costs => costs;
+        public T Value => data;
     }
 }

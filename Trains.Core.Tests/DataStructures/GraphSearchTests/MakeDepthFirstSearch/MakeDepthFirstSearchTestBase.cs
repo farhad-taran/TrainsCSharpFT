@@ -16,7 +16,7 @@ namespace Trains.Core.Tests.DataStructures.GraphSearchTests.MakeDepthFirstSearch
 
         protected virtual char NodeToFind => ' ';
 
-        protected Graph<char> NewEmptyGraph => new Graph<char>(new NodeList<char>());
+        protected Graph<char> NewEmptyGraph => new Graph<char>(new List<GraphNode<char>>());
 
         [TestInitialize]
         public void BaseInitialize()
