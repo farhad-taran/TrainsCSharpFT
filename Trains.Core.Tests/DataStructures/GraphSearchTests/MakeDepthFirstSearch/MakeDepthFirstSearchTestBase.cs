@@ -156,13 +156,25 @@ namespace Trains.Core.Tests.DataStructures.GraphSearchTests.MakeDepthFirstSearch
         [TestMethod]
         public void SetsNeighborsCount()
         {
-            Assert.AreEqual(2, GraphSearchResult.NeighborsCount);
+            Assert.AreEqual(1, GraphSearchResult.NeighborsCount);
         }
 
         [TestMethod]
         public void SetsRouteCostDictionary()
         {
-            Assert.AreEqual(1, GraphSearchResult.RouteCosts.Count);
+            Assert.AreEqual(2, GraphSearchResult.AvailableRoutesCount);
+        }
+
+        [TestMethod]
+        public void HasCorrectCostForDirectNeighbor()
+        {
+            Assert.AreEqual(5, GraphSearchResult.GetRouteCost('B'));
+        }
+
+        [TestMethod]
+        public void HasCorrectCostForIndirectNeighbor()
+        {
+            Assert.AreEqual(9, GraphSearchResult.GetRouteCost('C'));
         }
     }
 
@@ -193,13 +205,25 @@ namespace Trains.Core.Tests.DataStructures.GraphSearchTests.MakeDepthFirstSearch
         [TestMethod]
         public void SetsNeighborsCount()
         {
-            Assert.AreEqual(2, GraphSearchResult.NeighborsCount);
+            Assert.AreEqual(1, GraphSearchResult.NeighborsCount);
         }
 
         [TestMethod]
         public void SetsRouteCostDictionary()
         {
-            Assert.AreEqual(1, GraphSearchResult.RouteCosts.Count);
+            Assert.AreEqual(1, GraphSearchResult.AvailableRoutesCount);
+        }
+
+        [TestMethod]
+        public void HasCorrectCostForDirectNeighbor()
+        {
+            Assert.AreEqual(4, GraphSearchResult.GetRouteCost('C'));
+        }
+
+        [TestMethod]
+        public void HasNoCostForPredecessor()
+        {
+            Assert.AreEqual(null, GraphSearchResult.GetRouteCost('A'));
         }
     }
 }

@@ -34,12 +34,9 @@ namespace Trains.DataStructures
             if (root == null)
                 return GraphSearchResult<T>.NotFound("Graph does not contain node.");
 
-
             var nodes = DepthFirstSearch(root, graph);
 
             return GraphSearchResult<T>.Found(root, nodes);
-
-            throw new NotImplementedException();
         }
 
         private static IEnumerable<GraphNode<T>> DepthFirstSearch<T>(GraphNode<T> startNode, Graph<T> graph)
@@ -61,7 +58,7 @@ namespace Trains.DataStructures
 
                 // If you don't care about the left-to-right order, remove the Reverse
                 foreach (var neighbour in neighbours.Reverse())
-                    stack.Push((GraphNode<T>)neighbour);
+                    stack.Push(neighbour);
             }
         }
     }
@@ -72,7 +69,10 @@ namespace Trains.DataStructures
         public bool Success { get; }
         public string Message { get; }
         public int NeighborsCount { get; }
-        public Dictionary<T, int> RouteCosts { get; }
+        public int AvailableRoutesCount { get; }
+
+        private Dictionary<T, int> routeCosts;
+
 
         private GraphSearchResult(GraphNode<T> rootNode, IEnumerable<GraphNode<T>> routes, string message)
         {
@@ -80,23 +80,35 @@ namespace Trains.DataStructures
             Success = (rootNode != null && string.IsNullOrWhiteSpace(message));
             Message = message;
             NeighborsCount = RootNode == null ? 0 : RootNode.Neighbors.Count;
-            RouteCosts = CalculateRouteCosts(rootNode, routes);
+            routeCosts = CalculateRouteCosts(rootNode, routes);
+            AvailableRoutesCount = routeCosts.Count;
         }
 
         private Dictionary<T, int> CalculateRouteCosts(GraphNode<T> rootNode, IEnumerable<GraphNode<T>> routes)
         {
-            if(Success == false)
+            var calculatedRouteCosts = new Dictionary<T, int>();
+            if (Success == false)
             {
-                return new Dictionary<T, int>();
+                return calculatedRouteCosts;
             }
-
-            var costsDic = new Dictionary<T, int>();
 
             foreach (var node in routes)
             {
-                costsDic.Add(node.Value, node.Costs.Single());
+                if (node.NodeKey.Equals(rootNode.NodeKey) == false)
+                {
+                    var totalCost = routes
+                        .TakeWhile(x => x.NodeKey.Equals(node.NodeKey) == false)
+                        .Sum(x => x.Costs.Sum(y => y.Value));
+                    calculatedRouteCosts.Add(node.NodeKey, totalCost);
+                }
             }
-            return costsDic;
+            return calculatedRouteCosts;
+        }
+
+        public int? GetRouteCost(T nodeKey)
+        {
+            int cost;
+            return (routeCosts.TryGetValue(nodeKey, out cost)) ? cost : (int?)null;
         }
 
         internal static GraphSearchResult<T> NotFound(string message)

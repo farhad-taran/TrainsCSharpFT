@@ -29,7 +29,7 @@ namespace Trains.Core.DataStructures
         public void AddDirectedEdge(GraphNode<T> from, GraphNode<T> to, int cost)
         {
             from.Neighbors.Add(to);
-            from.Costs.Add(cost);
+            from.Costs.Add(to.NodeKey,cost);
         }
 
         public bool Any()
@@ -37,9 +37,9 @@ namespace Trains.Core.DataStructures
             return nodeSet.Any();
         }
 
-        public GraphNode<T> GetNode(T value)
+        public GraphNode<T> GetNode(T key)
         {
-            return nodeSet.SingleOrDefault(x => x.Value.Equals(value));
+            return nodeSet.SingleOrDefault(x => x.NodeKey.Equals(key));
         }
 
         public List<GraphNode<T>> Nodes

@@ -8,7 +8,7 @@ namespace Trains.Core.DataStructures
 {
     public class GraphNode<T> 
     {
-        private List<int> costs;
+        private Dictionary<T,int> costs;
         private T data;
         private List<GraphNode<T>> neighbors = null;
 
@@ -16,11 +16,11 @@ namespace Trains.Core.DataStructures
         {
             this.data = value;
             this.neighbors = new List<GraphNode<T>>();
-            this.costs = new List<int>();
+            this.costs = new Dictionary<T, int>();
         }
 
         public List<GraphNode<T>> Neighbors => neighbors;
-        public List<int> Costs => costs;
-        public T Value => data;
+        public Dictionary<T, int> Costs => costs;
+        public T NodeKey => data;
     }
 }
