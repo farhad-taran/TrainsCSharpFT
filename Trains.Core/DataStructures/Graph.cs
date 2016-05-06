@@ -46,9 +46,9 @@ namespace Trains.Core.DataStructures
             return nodeSet.Any();
         }
 
-        public bool GetNode(T value)
+        public GraphNode<T> GetNode(T value)
         {
-            return nodeSet.FindByValue(value);
+            return (GraphNode<T>)nodeSet.FindByValue(value);
         }
 
         public bool Remove(T value)

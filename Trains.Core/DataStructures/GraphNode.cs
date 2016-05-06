@@ -10,9 +10,7 @@ namespace Trains.Core.DataStructures
     {
         private List<int> costs;
 
-        public GraphNode() : base() { }
         public GraphNode(T value) : base(value) { }
-        public GraphNode(T value, NodeList<T> neighbors) : base(value, neighbors) { }
 
         new public NodeList<T> Neighbors
         {

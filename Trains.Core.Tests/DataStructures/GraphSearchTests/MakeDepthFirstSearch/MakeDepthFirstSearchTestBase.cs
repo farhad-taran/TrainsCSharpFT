@@ -73,6 +73,34 @@ namespace Trains.Core.Tests.DataStructures.GraphSearchTests.MakeDepthFirstSearch
     }
 
     [TestClass]
+    public class WhenGraphIsNotEmptyButDoesNotContainStartNode : MakeDepthFirstSearchTestBase
+    {
+        protected override char NodeToFind => 'Z';
+        protected override Graph<char> MakeGraph()
+        {
+            var graph = NewEmptyGraph;
+            var a = new GraphNode<char>('A');
+            var b = new GraphNode<char>('B');
+            graph.AddNode(a);
+            graph.AddNode(b);
+            graph.AddDirectedEdge(a, b, 5);
+            return graph;
+        }
+
+        [TestMethod]
+        public void SetsFoundFalse()
+        {
+            Assert.IsFalse(GraphSearchResult.Success);
+        }
+
+        [TestMethod]
+        public void SetsMessage()
+        {
+            Assert.AreEqual("Graph does not contain node.", GraphSearchResult.Message);
+        }
+    }
+
+    [TestClass]
     public class WhenOnlyOneDirectedEdgeInGraphAndNodeIsFirst : MakeDepthFirstSearchTestBase
     {
         protected override char NodeToFind => 'A';
@@ -102,7 +130,44 @@ namespace Trains.Core.Tests.DataStructures.GraphSearchTests.MakeDepthFirstSearch
     }
 
     [TestClass]
-    public class WhenThreeNodesInGraphAndFindingMiddleNode : MakeDepthFirstSearchTestBase
+    public class WhenThreeNodesInGraphAndFirstNodeIsRoot : MakeDepthFirstSearchTestBase
+    {
+        protected override char NodeToFind => 'A';
+        protected override Graph<char> MakeGraph()
+        {
+            var graph = NewEmptyGraph;
+            var a = new GraphNode<char>('A');
+            var b = new GraphNode<char>('B');
+            var c = new GraphNode<char>('C');
+            graph.AddNode(a);
+            graph.AddNode(b);
+            graph.AddNode(c);
+            graph.AddDirectedEdge(a, b, 5);
+            graph.AddDirectedEdge(b, c, 4);
+            return graph;
+        }
+
+        [TestMethod]
+        public void SetsFoundTrue()
+        {
+            Assert.IsTrue(GraphSearchResult.Success);
+        }
+
+        [TestMethod]
+        public void SetsNeighborsCount()
+        {
+            Assert.AreEqual(2, GraphSearchResult.NeighborsCount);
+        }
+
+        [TestMethod]
+        public void SetsRouteCostDictionary()
+        {
+            Assert.AreEqual(1, GraphSearchResult.RouteCosts.Count);
+        }
+    }
+
+    [TestClass]
+    public class WhenThreeNodesInGraphAndMiddleNodeIsRoot : MakeDepthFirstSearchTestBase
     {
         protected override char NodeToFind => 'B';
         protected override Graph<char> MakeGraph()
@@ -129,6 +194,12 @@ namespace Trains.Core.Tests.DataStructures.GraphSearchTests.MakeDepthFirstSearch
         public void SetsNeighborsCount()
         {
             Assert.AreEqual(2, GraphSearchResult.NeighborsCount);
+        }
+
+        [TestMethod]
+        public void SetsRouteCostDictionary()
+        {
+            Assert.AreEqual(1, GraphSearchResult.RouteCosts.Count);
         }
     }
 }
