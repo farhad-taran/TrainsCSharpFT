@@ -39,11 +39,12 @@ namespace Trains.Core.Presentation.Commands
             var predecessorChar = input[0];
             var successorChar = input[1];
             var cost = Convert.ToInt32(input[2].ToString());
-            var predecessorNode = new GraphNode<char>(predecessorChar);
-            var successorNode = new GraphNode<char>(successorChar);
+            var predecessorNode = new Node<char>(predecessorChar);
+            var successorNode = new Node<char>(successorChar);
+
             graph.AddNode(predecessorNode);
             graph.AddNode(successorNode);
-            graph.AddDirectedEdge(predecessorNode, successorNode, cost);
+            graph.ConnectNode(predecessorNode, successorNode, cost);
 
             return CommandResult.Ok($"Inserted directed edge {input}");
         }

@@ -16,7 +16,7 @@ namespace Trains.Core.Tests.Presentation.ConsoleUserInterfaceTests
         protected ConsoleUserInterface Interface;
         protected virtual IList<MenuItem> MenuItems => new MenuItem[0];
 
-        protected Graph<char> Graph = new Graph<char>();
+        protected Graph<char> Graph = new Graph<char>(5);
 
         [TestInitialize]
         public virtual void BaseInitialize()

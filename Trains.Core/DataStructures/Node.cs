@@ -30,6 +30,8 @@ namespace Trains.Core.DataStructures
             }
         }
 
+        public bool Visited { get; internal set; }
+
         protected NodeList<T> Neighbors
         {
             get
@@ -43,7 +45,7 @@ namespace Trains.Core.DataStructures
         }
     }
 
-    class Node
+    public class Node
     {
         public bool Visited { get; set; }
 
@@ -74,14 +76,17 @@ namespace Trains.Core.DataStructures
             _row = row;
             IsRoot = isRoot;
         }
+
+        public Node(char c)
+        {
+            _label = c;
+        }
     }
 
-    class Graph
+    public class Graph<T>
     {
-        private Node _rootNode;
-
-        private static List<Node> _nodes;
-        public List<Node> Nodes
+        private static List<Node<T>> _nodes;
+        public List<Node<T>> Nodes
         {
             get { return _nodes; }
         }
@@ -101,49 +106,31 @@ namespace Trains.Core.DataStructures
                 throw new ArgumentException("Maximum size for the graph is 1000.");
             }
 
-            _nodes = new List<Node>(size);
+            _nodes = new List<Node<T>>(size);
             AdjMatrix = new int[size, size];
         }
 
-        private void SetRootNode(Node n)
-        {
-            if (_rootNode != null)
-            {
-                throw new Exception("Root node is already set.");
-            }
-            _rootNode = n;
-        }
-
-        public Node GetRootNode()
-        {
-            return _rootNode;
-        }
-
-        public void AddNode(Node node)
+        public void AddNode(Node<T> node)
         {
             _nodes.Add(node);
-
-            if (node.IsRoot)
-            {
-                SetRootNode(node);
-            }
         }
 
-        public static Node GetTopNeighbor(Node node)
+        public int GetCost(T start, T end)
         {
-            //edge for top neghbouring node
-            return _nodes.FirstOrDefault(c => c.Column == node.Column && c.Row == node.Row - 1);
+            var startNodeIdx = _nodes.IndexOf(_nodes.SingleOrDefault(x => x.Value.Equals(start)));
+            var endNodeIdx = _nodes.IndexOf(_nodes.SingleOrDefault(x => x.Value.Equals(end)));
+            return AdjMatrix[startNodeIdx, endNodeIdx];
         }
 
-        public static Node GetLeftNeighbor(Node node)
+        public object GetNode(T v)
         {
-            return _nodes.FirstOrDefault(c => c.Column == node.Column - 1 && c.Row == node.Row);
+            throw new NotImplementedException();
         }
 
         //use this to connect two nodes
         //all nodes must first be added to the graph
         //in order to create a matrix which can represent all the nodes
-        public static void ConnectNode(Node start, Node end, int weight)
+        public void ConnectNode(Node<T> start, Node<T> end, int weight)
         {
             int startIndex = _nodes.IndexOf(start);
             int endIndex = _nodes.IndexOf(end);
@@ -152,14 +139,14 @@ namespace Trains.Core.DataStructures
             AdjMatrix[endIndex, startIndex] = weight;
         }
 
-        private Node GetUnvisitedChildNode(Node n)
+        private Node<T> GetUnvisitedChildNode(Node<T> n)
         {
 
             int index = _nodes.IndexOf(n);
             int i = 0;
             while (i < _nodes.Count)
             {
-                if (AdjMatrix[index, i] == 1 && _nodes[i].Visited == false)
+                if (AdjMatrix[index, i] > 0 && _nodes[i].Visited == false)
                 {
                     return _nodes[i];
                 }
@@ -168,22 +155,23 @@ namespace Trains.Core.DataStructures
             return null;
         }
 
-
-        public SearchResult DepthFirstSearch(List<Node> nodesToFind)
+        public SearchResult<T> DepthFirstSearch(T start,List<T> nodesToFind)
         {
             if (!nodesToFind.Any())
             {
                 throw new Exception("Please provide a list of nodes to search for.");
             }
 
-            var stack = new Stack<Node>();
+            var stack = new Stack<Node<T>>();
 
-            var res = new SearchResult();
+            var res = new SearchResult<T>();
 
-            stack.Push(_rootNode);
+            var startNode = _nodes.FirstOrDefault(x => x.Value.Equals(start));
 
-            _rootNode.Visited = true;
-            res.History.Add(_rootNode.Label);
+            stack.Push(startNode);
+
+            startNode.Visited = true;
+            res.History.Add(startNode);
 
             while (stack.Count > 0)
             {
@@ -192,15 +180,15 @@ namespace Trains.Core.DataStructures
                 if (child != null)
                 {
                     child.Visited = true;
-                    res.History.Add(child.Label);
+                    res.History.Add(child);
 
-                    if (nodesToFind.Contains(child))
+                    if (nodesToFind.Contains(child.Value))
                     {
                         res.Node = child;
                         res.Found = true;
+                        ++res.Steps;
                         break;
                     }
-                    res.Steps++;
                     stack.Push(child);
                 }
                 else
@@ -212,16 +200,16 @@ namespace Trains.Core.DataStructures
         }
     }
 
-    class SearchResult
+    public class SearchResult<T>
     {
         public int Steps { get; set; }
-        public Node Node { get; set; }
+        public Node<T> Node { get; set; }
         public bool Found { get; set; }
-        public List<char> History { get; set; }
+        public List<Node<T>> History { get; set; }
 
         public SearchResult()
         {
-            History = new List<char>();
+            History = new List<Node<T>>();
         }
     }
 

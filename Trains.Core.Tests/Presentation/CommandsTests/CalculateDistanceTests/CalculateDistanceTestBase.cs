@@ -18,7 +18,7 @@ namespace Trains.Core.Tests.Presentation.CommandsTests.CalculateDistanceTests
 
         CalculateDistance command;
         protected CommandResult CommandResult;
-        protected Graph<char> Graph = new Graph<char>();
+        protected Graph<char> Graph = new Graph<char>(5);
 
         [TestInitialize]
         public virtual void BaseInitialize()
@@ -29,7 +29,7 @@ namespace Trains.Core.Tests.Presentation.CommandsTests.CalculateDistanceTests
     }
 
     [TestClass]
-    public class WhenInvalidInput: CalculateDistanceTestBase
+    public class WhenInvalidInput : CalculateDistanceTestBase
     {
         [TestInitialize]
         public override void BaseInitialize()
@@ -58,31 +58,31 @@ namespace Trains.Core.Tests.Presentation.CommandsTests.CalculateDistanceTests
     }
 
     [TestClass]
-    public class WhenValidInput:CalculateDistanceTestBase
+    public class WhenValidInput : CalculateDistanceTestBase
     {
         [TestInitialize]
         public override void BaseInitialize()
         {
             ConsoleService.Setup(x => x.ReadLine()).Returns("d A-B-C");
-            var a = new GraphNode<char>('A');
-            var b = new GraphNode<char>('B');
-            var c = new GraphNode<char>('C');
-            var d = new GraphNode<char>('D');
-            var e = new GraphNode<char>('E');
+            var a = new Node<char>('A');
+            var b = new Node<char>('B');
+            var c = new Node<char>('C');
+            var d = new Node<char>('D');
+            var e = new Node<char>('E');
             Graph.AddNode(a);
             Graph.AddNode(b);
             Graph.AddNode(c);
             Graph.AddNode(d);
             Graph.AddNode(e);
-            Graph.AddDirectedEdge(a, b, 5);
-            Graph.AddDirectedEdge(b, c, 4);
-            Graph.AddDirectedEdge(c, d, 8);
-            Graph.AddDirectedEdge(d, c, 8);
-            Graph.AddDirectedEdge(d, e, 6);
-            Graph.AddDirectedEdge(a, d, 5);
-            Graph.AddDirectedEdge(c, e, 2);
-            Graph.AddDirectedEdge(e, b, 3);
-            Graph.AddDirectedEdge(a, e, 7);
+            Graph.ConnectNode(a, b, 5);
+            Graph.ConnectNode(b, c, 4);
+            Graph.ConnectNode(c, d, 8);
+            Graph.ConnectNode(d, c, 8);
+            Graph.ConnectNode(d, e, 6);
+            Graph.ConnectNode(a, d, 5);
+            Graph.ConnectNode(c, e, 2);
+            Graph.ConnectNode(e, b, 3);
+            Graph.ConnectNode(a, e, 7);
             base.BaseInitialize();
         }
 
@@ -102,7 +102,7 @@ namespace Trains.Core.Tests.Presentation.CommandsTests.CalculateDistanceTests
         public void ReturnsOkResult()
         {
             Assert.IsTrue(CommandResult.Success);
-            Assert.AreEqual("9",CommandResult.Message);
+            Assert.AreEqual("9", CommandResult.Message);
         }
     }
 }

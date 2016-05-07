@@ -34,19 +34,19 @@ namespace Trains.DataStructures
     {
         public static GraphSearchResult<T> MakeDepthFirstSearch<T>(this Graph<T> graph, T startNode)
         {
-            if (graph == null)
-                return GraphSearchResult<T>.Fail("Graph is null.");
-            if (graph.Any() == false)
-                return GraphSearchResult<T>.Fail("Graph is empty.");
+            //if (graph == null)
+            //    return GraphSearchResult<T>.Fail("Graph is null.");
+            ////if (graph.Any() == false)
+            ////    return GraphSearchResult<T>.Fail("Graph is empty.");
 
-            GraphNode<T> root = graph.GetNode(startNode);
+            ////GraphNode<T> root = graph.GetNode(startNode);
 
-            if (root == null)
-                return GraphSearchResult<T>.Fail("Graph does not contain node.");
+            //if (root == null)
+            //    return GraphSearchResult<T>.Fail("Graph does not contain node.");
 
-            var nodes = DepthFirstSearch(root, graph);
+            //var nodes = DepthFirstSearch(root, graph);
 
-            return GraphSearchResult<T>.Ok(root, nodes);
+            return GraphSearchResult<T>.Ok(null, null);
         }
 
         private static IEnumerable<GraphNode<T>> DepthFirstSearch<T>(GraphNode<T> startNode, Graph<T> graph)

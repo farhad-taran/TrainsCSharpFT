@@ -18,7 +18,7 @@ namespace Trains.Core.Tests.Presentation.CommandsTests.AddDirectedEdgeTests
 
         AddDirectedEdge command;
         protected CommandResult CommandResult;
-        protected Graph<char> Graph = new Graph<char>();
+        protected Graph<char> Graph = new Graph<char>(5);
 
         [TestInitialize]
         public virtual void BaseInitialize()
@@ -59,7 +59,7 @@ namespace Trains.Core.Tests.Presentation.CommandsTests.AddDirectedEdgeTests
         [TestMethod]
         public void DoesNotAddAnyItemsToGraph()
         {
-            Assert.IsFalse(Graph.Any());
+            Assert.IsFalse(Graph.Nodes.Any());
         }
     }
 
@@ -95,8 +95,8 @@ namespace Trains.Core.Tests.Presentation.CommandsTests.AddDirectedEdgeTests
         [TestMethod]
         public void AddsDirectedEdgeToGraph()
         {
-            Assert.AreEqual(2, Graph.Count);
-            Assert.AreEqual(5, Graph.GetNode('A').Costs['B']);
+            Assert.AreEqual(2, Graph.Nodes.Count);
+            Assert.AreEqual(5, Graph.GetCost('A','B'));
         }
     }
 }

@@ -25,3 +25,5 @@ C:\Users\X\Documents\TrainsCSharpFT\Trains.Core.Tests\bin\Debug\Microsoft.Visual
 C:\Users\X\Documents\TrainsCSharpFT\Trains.Core.Tests\obj\Debug\Trains.Core.Tests.csprojResolveAssemblyReference.cache
 C:\Users\X\Documents\TrainsCSharpFT\Trains.Core.Tests\obj\Debug\Trains.Core.Tests.dll
 C:\Users\X\Documents\TrainsCSharpFT\Trains.Core.Tests\obj\Debug\Trains.Core.Tests.pdb
+C:\Users\X\Documents\TrainsCSharpFT\Trains.Core.Tests\bin\Debug\Moq.dll
+C:\Users\X\Documents\TrainsCSharpFT\Trains.Core.Tests\bin\Debug\Moq.xml

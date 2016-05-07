@@ -37,9 +37,10 @@ namespace Trains.Core.Presentation.Commands
                 return CommandResult.Fail("");
 
             var nodes = nodesRegex.Matches(input).Cast<Match>().Select(x => x.Value).ToList();
-            GraphSearchResult<char> result = graph.MakeDepthFirstSearch(char.Parse(nodes.First()));
-            var costToLastNode = result.GetRouteCost(char.Parse(nodes.Last()));
-            return CommandResult.Ok(costToLastNode.ToString());
+            var result = graph.DepthFirstSearch(char.Parse(nodes.First()),new[] {char.Parse(nodes.Last())}.ToList());
+            //var costToLastNode = result.GetRouteCost(char.Parse(nodes.Last()));
+            //return CommandResult.Ok(costToLastNode.ToString());
+            return CommandResult.Ok("");
         }
     }
 }
