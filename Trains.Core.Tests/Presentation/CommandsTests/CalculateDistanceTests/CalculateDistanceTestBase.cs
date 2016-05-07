@@ -85,7 +85,7 @@ namespace Trains.Core.Tests.Presentation.CommandsTests.CalculateDistanceTests
             Graph.AddDirectedEdge(e, b, 3);
             Graph.AddDirectedEdge(a, e, 7);
 
-            var sss = GraphExtensions.DepthFirstTraversal(Graph,'A','B')
+            var sss = GraphExtensions.DepthFirstTraversal(Graph,'C','B')
                 .Where(x=>x.Node.NodeKey == 'C');
 
             foreach (var item in sss.Single().History)
@@ -100,10 +100,20 @@ namespace Trains.Core.Tests.Presentation.CommandsTests.CalculateDistanceTests
                 }
             }
 
-            var ggg = GraphExtensions.DepthFirstTraversal(Graph, 'E')
-                .Where(x => x.NodeKey == 'A');
+            var ggg = GraphExtensions.DepthFirstTraversal(Graph, 'C')
+                .Where(x => x.NodeKey == 'C');
 
-            var s = new[] {'A','B', 'C' }
+            //
+            //The number of different routes from C to C with a distance of less than 30.In the sample data, the trips are: CDC, CEBC, CEBCDC, CDCEBC, CDEBC, CEBCEBC, CEBCEBCEBC.
+            // get the neihbors of c 
+            // for each neighbor find all the routes to c
+            //then query based on less than 30
+            
+            
+             
+
+
+          var s = new[] {'A','B', 'C' }
             .Select(x => Graph.DepthFirstTraversal(x).Where(y => y.NodeKey == x)
             .ToList());
             
