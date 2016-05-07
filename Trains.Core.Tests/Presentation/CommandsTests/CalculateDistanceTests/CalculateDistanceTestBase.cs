@@ -85,10 +85,12 @@ namespace Trains.Core.Tests.Presentation.CommandsTests.CalculateDistanceTests
             Graph.AddDirectedEdge(e, b, 3);
             Graph.AddDirectedEdge(a, e, 7);
 
+            var sssss = c.Costs.Select(x => Graph.DepthFirstTraversal(x.Key, 'C').Where(y => y.Node.NodeKey == 'C').ToList()).ToList();
+
             var sss = GraphExtensions.DepthFirstTraversal(Graph,'C','B')
                 .Where(x=>x.Node.NodeKey == 'C');
 
-            foreach (var item in sss.Single().History)
+            foreach (var item in sss.Single().Stack)
             {
                 int cost=0;
                 if (item.Costs.TryGetValue('C', out cost))

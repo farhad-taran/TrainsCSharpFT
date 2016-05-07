@@ -176,11 +176,7 @@ namespace Trains.DataStructures
                 if (!visited.Add(current))
                     continue;
 
-                yield return new SearchResult<T>
-                {
-                    Node = current,
-                    History = stack.Select(x=>x).ToList()
-                };
+                yield return new SearchResult<T>(current,stack,visited);
                 var neighbours = current.Neighbors
                                       .Where(n => !visited.Contains(n));
 
@@ -196,15 +192,22 @@ namespace Trains.DataStructures
 
     public class SearchResult<T>
     {
+        private GraphNode<T> current;
+        private Stack<GraphNode<T>> stack;
+        private HashSet<GraphNode<T>> visited;
+
         public int Steps { get; set; }
         public GraphNode<T> Node { get; set; }
         public bool Found { get; set; }
-        public List<GraphNode<T>> History { get; set; }
+        public Stack<GraphNode<T>> Stack { get; set; }
+        public HashSet<GraphNode<T>> Visited { get; set; }
         public int TotalCost { get; set; }
 
-        public SearchResult()
+        public SearchResult(GraphNode<T> current, Stack<GraphNode<T>> stack, HashSet<GraphNode<T>> visited)
         {
-            History = new List<GraphNode<T>>();
+            this.Node = current;
+            this.Stack = stack;
+            this.Visited = visited;
         }
     }
 }
