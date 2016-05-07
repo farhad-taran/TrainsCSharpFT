@@ -44,10 +44,15 @@
     <Compile Include="DataStructures\GraphNode.cs" />
     <Compile Include="DataStructures\Node.cs" />
     <Compile Include="DataStructures\NodeList.cs" />
-    <Compile Include="Process\CommandBase.cs" />
+    <Compile Include="Presentation\Commands\AddDirectedEdge.cs" />
+    <Compile Include="Presentation\Commands\CalculateDistance.cs" />
+    <Compile Include="Presentation\Commands\ICommand.cs" />
+    <Compile Include="Presentation\Commands\QuitCommand.cs" />
+    <Compile Include="Presentation\Commands\ResetCommand.cs" />
+    <Compile Include="Presentation\ConsoleService.cs" />
+    <Compile Include="Presentation\ConsoleUserInterface.cs" />
+    <Compile Include="Presentation\IUserInterface.cs" />
     <Compile Include="DataStructures\GraphSearch.cs" />
-    <Compile Include="Process\NeighborsId.cs" />
-    <Compile Include="Process\StringInputProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

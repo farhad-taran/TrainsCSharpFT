@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq, Version=4.2.1510.2205, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -52,8 +56,10 @@
   <ItemGroup>
     <Compile Include="DataStructures\GraphSearchTests\MakeDepthFirstSearch\MakeDepthFirstSearchTestBase.cs" />
     <Compile Include="DataStructures\GraphTests\GraphTestBase.cs" />
-    <Compile Include="Process\NeighborsIdTests\NeighborsIdTestBase.cs" />
-    <Compile Include="Process\StringInputProcessorTests\StringInputProcessorTests.cs" />
+    <Compile Include="Presentation\CommandsTests\AddDirectedEdgeTests\AddDirectedEdgeTestBase.cs" />
+    <Compile Include="Presentation\CommandsTests\CalculateDistanceTests\CalculateDistanceTestBase.cs" />
+    <Compile Include="Presentation\CommandsTests\ResetCommandTests\ResetCommandTestBase.cs" />
+    <Compile Include="Presentation\ConsoleUserInterfaceTests\ConsoleUserInterfaceTestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -65,6 +71,9 @@
   <ItemGroup>
     <Folder Include="DataStructures\GraphNodeTests\" />
     <Folder Include="DataStructures\NodeListTests\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
