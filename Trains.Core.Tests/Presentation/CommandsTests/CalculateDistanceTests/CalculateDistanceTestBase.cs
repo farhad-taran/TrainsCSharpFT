@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Trains.Core.DataStructures;
 using Trains.Core.Presentation;
 using Trains.Core.Presentation.Commands;
+using Trains.DataStructures;
 
 namespace Trains.Core.Tests.Presentation.CommandsTests.CalculateDistanceTests
 {
@@ -83,6 +84,30 @@ namespace Trains.Core.Tests.Presentation.CommandsTests.CalculateDistanceTests
             Graph.AddDirectedEdge(c, e, 2);
             Graph.AddDirectedEdge(e, b, 3);
             Graph.AddDirectedEdge(a, e, 7);
+
+            var sss = GraphExtensions.DepthFirstTraversal(Graph,'A','B')
+                .Where(x=>x.Node.NodeKey == 'C');
+
+            foreach (var item in sss.Single().History)
+            {
+                int cost=0;
+                if (item.Costs.TryGetValue('C', out cost))
+                {
+                    int total = cost;
+
+                    // total must be added to first item cost trip to the current item to be total
+                    //ie A.cost to B + total
+                }
+            }
+
+            var ggg = GraphExtensions.DepthFirstTraversal(Graph, 'E')
+                .Where(x => x.NodeKey == 'A');
+
+            var s = new[] {'A','B', 'C' }
+            .Select(x => Graph.DepthFirstTraversal(x).Where(y => y.NodeKey == x)
+            .ToList());
+            
+
             base.BaseInitialize();
         }
 

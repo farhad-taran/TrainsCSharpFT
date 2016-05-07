@@ -130,4 +130,81 @@ namespace Trains.DataStructures
             return new GraphSearchResult<T>(root, routes, null);
         }
     }
+
+    public static class GraphExtensions
+    {
+        public static IEnumerable<GraphNode<T>> DepthFirstTraversal<T>(this Graph<T> graph, T start)
+        {
+            var visited = new HashSet<GraphNode<T>>();
+            var stack = new Stack<GraphNode<T>>();
+
+            var startNode = graph.GetNode(start);
+            stack.Push(startNode);
+
+            int trips=0;
+
+            while (stack.Count != 0)
+            {
+                var current = stack.Pop();
+                if (!visited.Add(current))
+                    continue;
+
+                trips++;
+                yield return current;
+                var neighbours = current.Neighbors
+                                      .Where(n => !visited.Contains(n));
+
+                // If you don't care about the left-to-right order, remove the Reverse
+                foreach (var neighbour in neighbours)
+                {
+                    stack.Push(neighbour);
+                }
+            }
+        }
+
+        public static IEnumerable<SearchResult<T>> DepthFirstTraversal<T>(this Graph<T> graph, T start, T end)
+        {
+            var visited = new HashSet<GraphNode<T>>();
+            var stack = new Stack<GraphNode<T>>();
+
+            var startNode = graph.GetNode(start);
+            stack.Push(startNode);
+
+            while (stack.Count != 0)
+            {
+                var current = stack.Pop();
+                if (!visited.Add(current))
+                    continue;
+
+                yield return new SearchResult<T>
+                {
+                    Node = current,
+                    History = stack.Select(x=>x).ToList()
+                };
+                var neighbours = current.Neighbors
+                                      .Where(n => !visited.Contains(n));
+
+                // If you don't care about the left-to-right order, remove the Reverse
+                foreach (var neighbour in neighbours)
+                {
+                    stack.Push(neighbour);
+                }
+            }
+        }
+    }
+
+
+    public class SearchResult<T>
+    {
+        public int Steps { get; set; }
+        public GraphNode<T> Node { get; set; }
+        public bool Found { get; set; }
+        public List<GraphNode<T>> History { get; set; }
+        public int TotalCost { get; set; }
+
+        public SearchResult()
+        {
+            History = new List<GraphNode<T>>();
+        }
+    }
 }
