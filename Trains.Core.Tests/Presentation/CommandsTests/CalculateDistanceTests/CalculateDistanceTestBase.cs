@@ -83,6 +83,10 @@ namespace Trains.Core.Tests.Presentation.CommandsTests.CalculateDistanceTests
             Graph.ConnectNode(c, e, 2);
             Graph.ConnectNode(e, b, 3);
             Graph.ConnectNode(a, e, 7);
+
+            //var s = Graph.DepthFirstSearch('C', new List<char> { 'C' });
+            //var ss = Graph.DepthFirstSearch('A', new List<char> { 'C' });
+            var ss = Graph.DepthFirstTraversal('A','C').Where(x => x.TotalCost < 30);
             base.BaseInitialize();
         }
 

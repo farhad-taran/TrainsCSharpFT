@@ -9,13 +9,13 @@ namespace Trains.Core.DataStructures
     public class Node<T>
     {
         private T data;
-        private NodeList<T> neighbors = null;
+        private List<Node<T>> neighbors = null;
 
         public Node(T data) : this(data, null) { }
-        public Node(T data, NodeList<T> neighbors)
+        public Node(T data, List<Node<T>> neighbors)
         {
             this.data = data;
-            this.neighbors = neighbors;
+            this.neighbors = new List<Node<T>>();
         }
 
         public T Value
@@ -32,16 +32,17 @@ namespace Trains.Core.DataStructures
 
         public bool Visited { get; internal set; }
 
-        protected NodeList<T> Neighbors
+        public List<Node<T>> Neighbors
         {
             get
             {
                 return neighbors;
             }
-            set
-            {
-                neighbors = value;
-            }
+        }
+
+        internal void AddNeighbor(Node<T> end)
+        {
+            neighbors.Add(end);
         }
     }
 
@@ -122,9 +123,9 @@ namespace Trains.Core.DataStructures
             return AdjMatrix[startNodeIdx, endNodeIdx];
         }
 
-        public object GetNode(T v)
+        public Node<T> GetNode(T v)
         {
-            throw new NotImplementedException();
+            return _nodes.SingleOrDefault(x => x.Value.Equals(v));
         }
 
         //use this to connect two nodes
@@ -137,6 +138,7 @@ namespace Trains.Core.DataStructures
 
             AdjMatrix[startIndex, endIndex] = weight;
             AdjMatrix[endIndex, startIndex] = weight;
+            start.AddNeighbor(end);
         }
 
         private Node<T> GetUnvisitedChildNode(Node<T> n)
@@ -187,6 +189,7 @@ namespace Trains.Core.DataStructures
                         res.Node = child;
                         res.Found = true;
                         ++res.Steps;
+                        res.TotalCost += GetCost(node.Value, child.Value);
                         break;
                     }
                     stack.Push(child);
@@ -200,12 +203,50 @@ namespace Trains.Core.DataStructures
         }
     }
 
+    public static class GraphExtensions
+    {
+        public static IEnumerable<SearchResult<T>> DepthFirstTraversal<T>(this Graph<T> graph, T start, T end)
+        {
+            var visited = new HashSet<Node<T>>();
+            var stack = new Stack<Node<T>>();
+
+            var startNode = graph.GetNode(start);
+            stack.Push(startNode);
+            SearchResult<T> result = new SearchResult<T>();
+
+            while (stack.Count != 0)
+            {
+                var current = stack.Pop();
+                result.Node = current;
+
+                if (!visited.Add(current))
+                    continue;
+
+                yield return result;
+
+                var neighbours = current.Neighbors
+                                      .Where(n => !visited.Contains(n));
+
+                // If you don't care about the left-to-right order, remove the Reverse
+                foreach (var neighbour in neighbours.Reverse())
+                {
+                    stack.Push(neighbour);
+
+                    result.TotalCost += graph.GetCost(current.Value, end);
+                    result.History.Add(current);
+                    result.Steps++;
+                }
+            }
+        }
+    }
+
     public class SearchResult<T>
     {
         public int Steps { get; set; }
         public Node<T> Node { get; set; }
         public bool Found { get; set; }
         public List<Node<T>> History { get; set; }
+        public int TotalCost { get; set; }
 
         public SearchResult()
         {
