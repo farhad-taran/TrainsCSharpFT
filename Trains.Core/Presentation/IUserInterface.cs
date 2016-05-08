@@ -13,7 +13,7 @@ namespace Trains.Core.Presentation
     /// </summary>
     interface IUserInterface<TInput>
     {
-        bool MapInputToCommand(TInput input, out ICommand command);
-        GraphSearchResult<char> ExecuteCommand(ICommand command);
+        ICommand MapInputToCommand(TInput input);
+        CommandResult ExecuteCommand(ICommand command);
     }
 }

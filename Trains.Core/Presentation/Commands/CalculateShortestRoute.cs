@@ -40,7 +40,8 @@ namespace Trains.Core.Presentation.Commands
 
             var startNode = graph.GetNode(firstNodeChar);
             var searchResult = startNode
-                .DepthFirstTraversal().ToList();
+                .DepthFirstTraversal()
+                .Where(x=>x.CurrentNode!=startNode).ToList();
 
             var cost = searchResult
                .GetRoutes(lastNodeChar);

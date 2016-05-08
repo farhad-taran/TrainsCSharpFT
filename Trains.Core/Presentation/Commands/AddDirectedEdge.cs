@@ -30,25 +30,39 @@ namespace Trains.Core.Presentation.Commands
 
         public CommandResult Execute()
         {
-            consoleService.Write("Please enter command in the following format : a AB5");
+            consoleService.Write("Please enter command in the following format : a AB5 or AB5,BC6,CD7");
             var input = consoleService.ReadLine();
 
-            var match = regex.Match(input);
-            if (match.Success == false)
+            var matches = regex.Matches(input);
+            if (matches.Count == 0)
                 return CommandResult.Fail("Input must be two uppercase characters between A and E followed by an integer cost.eg AE2");
-            var predecessorChar = input[0];
-            var successorChar = input[1];
-            var cost = Convert.ToInt32(input[2].ToString());
-            var predecessorNode = new GraphNode<char>(predecessorChar);
-            var successorNode = new GraphNode<char>(successorChar);
-            graph.AddNode(predecessorNode);
-            graph.AddNode(successorNode);
-            graph.AddDirectedEdge(predecessorNode, successorNode, cost);
 
-            return CommandResult.Ok($"Inserted directed edge {input}");
+            var inputs = matches.Cast<Match>().Select(x => x.Value).ToList();
+
+            foreach (var item in inputs)
+            {
+                var predecessorChar = item[0];
+                var successorChar = item[1];
+                var cost = Convert.ToInt32(item[2].ToString());
+                var predecessorNode = graph.GetNode(predecessorChar); 
+                var successorNode = graph.GetNode(successorChar);
+
+                if(predecessorNode == null)
+                {
+                    predecessorNode = new GraphNode<char>(predecessorChar);
+                    graph.AddNode(predecessorNode);
+                }
+                if (successorNode == null)
+                {
+                    successorNode = new GraphNode<char>(successorChar);
+                    graph.AddNode(successorNode);
+                }
+
+                graph.AddDirectedEdge(predecessorNode, successorNode, cost);
+            }           
+
+            return CommandResult.Ok($"Inserted directed edges for {input}");
         }
-
-
     }
 
     public class CommandResult

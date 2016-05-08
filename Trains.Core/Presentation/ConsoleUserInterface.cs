@@ -24,15 +24,14 @@ namespace Trains.Core.Presentation
             this.menuItems = menuItems;
         }
 
-        public GraphSearchResult<char> ExecuteCommand(ICommand command)
+        public CommandResult ExecuteCommand(ICommand command)
         {
-            throw new NotImplementedException();
+            return command.Execute();
         }
 
-        public bool MapInputToCommand(string input, out ICommand command)
+        public ICommand MapInputToCommand(string input)
         {
-            command = menuItems.SingleOrDefault(x => x.Key == input)?.Command;
-            return command != null;
+            return menuItems.SingleOrDefault(x => x.Key == input)?.Command;
         }
     }
 

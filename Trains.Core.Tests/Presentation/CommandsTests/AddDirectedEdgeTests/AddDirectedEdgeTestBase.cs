@@ -41,7 +41,7 @@ namespace Trains.Core.Tests.Presentation.CommandsTests.AddDirectedEdgeTests
         [TestMethod]
         public void WritesCommandInstructions()
         {
-            ConsoleService.Verify(x => x.Write("Please enter command in the following format : a AB5"), Times.Once());
+            ConsoleService.Verify(x => x.Write("Please enter command in the following format : a AB5 or AB5,BC6,CD7"), Times.Once());
         }
 
         [TestMethod]
@@ -76,7 +76,7 @@ namespace Trains.Core.Tests.Presentation.CommandsTests.AddDirectedEdgeTests
         [TestMethod]
         public void WritesCommandInstructions()
         {
-            ConsoleService.Verify(x => x.Write("Please enter command in the following format : a AB5"), Times.Once());
+            ConsoleService.Verify(x => x.Write("Please enter command in the following format : a AB5 or AB5,BC6,CD7"), Times.Once());
         }
 
         [TestMethod]
@@ -89,7 +89,7 @@ namespace Trains.Core.Tests.Presentation.CommandsTests.AddDirectedEdgeTests
         public void ReturnsSuccessResult()
         {
             Assert.IsTrue(CommandResult.Success);
-            Assert.AreEqual("Inserted directed edge AB5", CommandResult.Message);
+            Assert.AreEqual("Inserted directed edges for AB5", CommandResult.Message);
         }
 
         [TestMethod]
@@ -97,6 +97,45 @@ namespace Trains.Core.Tests.Presentation.CommandsTests.AddDirectedEdgeTests
         {
             Assert.AreEqual(2, Graph.Count);
             Assert.AreEqual(5, Graph.GetNode('A').Costs['B']);
+        }
+    }
+
+    [TestClass]
+    public class WhenUserInputIsValidAndAddingMultipleEdges : AddDirectedEdgeTestBase
+    {
+        [TestInitialize]
+        public override void BaseInitialize()
+        {
+            ConsoleService.Setup(x => x.ReadLine()).Returns("AB5,BC6,CD7");
+            base.BaseInitialize();
+        }
+
+        [TestMethod]
+        public void WritesCommandInstructions()
+        {
+            ConsoleService.Verify(x => x.Write("Please enter command in the following format : a AB5 or AB5,BC6,CD7"), Times.Once());
+        }
+
+        [TestMethod]
+        public void ReadsUserInput()
+        {
+            ConsoleService.Verify(x => x.ReadLine(), Times.Once());
+        }
+
+        [TestMethod]
+        public void ReturnsSuccessResult()
+        {
+            Assert.IsTrue(CommandResult.Success);
+            Assert.AreEqual("Inserted directed edges for AB5,BC6,CD7", CommandResult.Message);
+        }
+
+        [TestMethod]
+        public void AddsDirectedEdgeToGraph()
+        {
+            Assert.AreEqual(4, Graph.Count);
+            Assert.AreEqual(5, Graph.GetNode('A').Costs['B']);
+            Assert.AreEqual(6, Graph.GetNode('B').Costs['C']);
+            Assert.AreEqual(7, Graph.GetNode('C').Costs['D']);
         }
     }
 }

@@ -30,13 +30,12 @@ namespace Trains.Core.Tests.Presentation.ConsoleUserInterfaceTests
     {
         protected virtual string input => string.Empty;
         protected ICommand command;
-        protected bool IsValidInput;
 
         [TestInitialize]
         public override void BaseInitialize()
         {
             base.BaseInitialize();
-            IsValidInput = Interface.MapInputToCommand(input, out command);
+            command = Interface.MapInputToCommand(input);
         }
     }
 
@@ -48,12 +47,6 @@ namespace Trains.Core.Tests.Presentation.ConsoleUserInterfaceTests
         {
             new MenuItem("Add a directed edge to the graph using the following sample command : a AB5","a",new AddDirectedEdge(new ConsoleService(),Graph))
         };
-
-        [TestMethod]
-        public void ReturnsTrueForIsValidInput()
-        {
-            Assert.IsTrue(IsValidInput);
-        }
 
         [TestMethod]
         public void ReturnsValidCommand()
@@ -70,12 +63,6 @@ namespace Trains.Core.Tests.Presentation.ConsoleUserInterfaceTests
         {
             new MenuItem("Add a directed edge to the graph using the following sample command : a AB5","a", new AddDirectedEdge(new ConsoleService(),Graph))
         };
-
-        [TestMethod]
-        public void ReturnsFalseForIsValidInput()
-        {
-            Assert.IsFalse(IsValidInput);
-        }
 
         [TestMethod]
         public void ReturnsValidCommand()

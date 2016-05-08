@@ -4,15 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6A778B3E-8F19-4089-9B72-8AD4CD76344D}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{4C06B658-3772-49BD-A623-9C8D9E63FA40}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Trains.Core</RootNamespace>
-    <AssemblyName>Trains.Core</AssemblyName>
+    <RootNamespace>Trains.UI</RootNamespace>
+    <AssemblyName>Trains.UI</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -40,25 +43,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataStructures\Graph.cs" />
-    <Compile Include="DataStructures\GraphNode.cs" />
-    <Compile Include="DataStructures\Node.cs" />
-    <Compile Include="DataStructures\NodeList.cs" />
-    <Compile Include="DataStructures\RouteCost.cs" />
-    <Compile Include="DataStructures\Search.cs" />
-    <Compile Include="Presentation\Commands\AddDirectedEdge.cs" />
-    <Compile Include="Presentation\Commands\CalculateDistance.cs" />
-    <Compile Include="Presentation\Commands\CalculateNumberOfTrips.cs" />
-    <Compile Include="Presentation\Commands\CalculateShortestRoute.cs" />
-    <Compile Include="Presentation\Commands\ICommand.cs" />
-    <Compile Include="Presentation\Commands\ResetCommand.cs" />
-    <Compile Include="Presentation\ConsoleService.cs" />
-    <Compile Include="Presentation\ConsoleUserInterface.cs" />
-    <Compile Include="Presentation\IUserInterface.cs" />
-    <Compile Include="DataStructures\GraphSearch.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Trains.Core\Trains.Core.csproj">
+      <Project>{6A778B3E-8F19-4089-9B72-8AD4CD76344D}</Project>
+      <Name>Trains.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

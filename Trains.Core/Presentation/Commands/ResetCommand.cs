@@ -3,23 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Trains.Core.DataStructures;
 
 namespace Trains.Core.Presentation.Commands
 {
     public class ResetCommand:ICommand
     {
         readonly IConsoleService consoleService;
-        readonly ICommand decoratee;
+        readonly Graph<char> graph;
 
-        public ResetCommand(IConsoleService consoleService, ICommand decoratee)
+        public ResetCommand(IConsoleService consoleService, Graph<char> graph)
         {
-            this.decoratee = decoratee;
+            this.graph = graph;
             this.consoleService = consoleService;
         }
 
         public CommandResult Execute()
         {
-            throw new NotImplementedException();
+            consoleService.Write("Clearing nodes from graph");
+            graph.Nodes.Clear();
+            return CommandResult.Ok("All nodes cleared");
         }
     }
 }
