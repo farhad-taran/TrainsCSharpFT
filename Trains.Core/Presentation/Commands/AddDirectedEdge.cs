@@ -8,7 +8,7 @@ using Trains.Core.DataStructures;
 
 namespace Trains.Core.Presentation.Commands
 {
-    public class AddDirectedEdge:ICommand
+    public class AddDirectedEdge : ICommand
     {
         /// <summary>
         /// regex is not performant so we create an static instance using the compiled
@@ -48,8 +48,8 @@ namespace Trains.Core.Presentation.Commands
             return CommandResult.Ok($"Inserted directed edge {input}");
         }
 
-   
-    }   
+
+    }
 
     public class CommandResult
     {
@@ -63,12 +63,12 @@ namespace Trains.Core.Presentation.Commands
 
         public static CommandResult Ok(string message)
         {
-            return new CommandResult(true,message);
+            return new CommandResult(true, message);
         }
 
         public static CommandResult Fail(string message)
         {
-            return new CommandResult(false,message);
+            return new CommandResult(false, string.IsNullOrEmpty(message) ? "Invalid input" : message);
         }
     }
 }

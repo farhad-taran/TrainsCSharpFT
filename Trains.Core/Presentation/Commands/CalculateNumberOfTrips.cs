@@ -18,7 +18,8 @@ namespace Trains.Core.Presentation.Commands
         /// regex is not performant so we create an static instance using the compiled
         /// flag rather than keep creating a new instance.
         /// </summary>
-        static Regex commandRegex = new Regex(@"tc\s[A-E]-[A-E]\sM\d+", RegexOptions.Compiled);
+        static Regex maximumRegex = new Regex(@"tc\s[A-E]-[A-E]\sM\d+", RegexOptions.Compiled);
+        static Regex exactRegex = new Regex(@"tc\s[A-E]-[A-E]\sE\d+", RegexOptions.Compiled);
 
         static Regex nodesRegex = new Regex(@"[A-E]");
 
@@ -32,8 +33,9 @@ namespace Trains.Core.Presentation.Commands
         {
             consoleService.Write("Please enter command in the following formats : tc C-C M3 or tc C-C E3");
             var input = consoleService.ReadLine();
-            var countMaximumMatch = commandRegex.Match(input);
-            if(countMaximumMatch.Success==false)
+            var countMaximumMatch = maximumRegex.Match(input);
+            var countExactMatch = exactRegex.Match(input);
+            if (countMaximumMatch.Success == false && countExactMatch.Success == false)
             {
                 return CommandResult.Fail("Invalid command");
             }
@@ -42,6 +44,7 @@ namespace Trains.Core.Presentation.Commands
             var firstNodeChar = chars[3];
             var lastNodeChar = chars[5];
             int tripsCount = int.Parse(chars[8].ToString());
+            bool maxTrips = chars[7] == 'M';
 
             var startNode = graph.GetNode(firstNodeChar);
             var searchResult = startNode
@@ -50,7 +53,14 @@ namespace Trains.Core.Presentation.Commands
             var cost = searchResult
                .GetRoutes(lastNodeChar);
 
-            var trips = cost.Where(x => x.StartsAt(firstNodeChar) && x.EndsAt(lastNodeChar) && x.Trips <= tripsCount);
+            var trips = cost.Where(
+                x =>
+                x.StartsAt(firstNodeChar) &&
+                x.EndsAt(lastNodeChar));
+
+            var count = maxTrips ? 
+                trips.Where(x => x.Trips <= tripsCount) : 
+                trips.Where(x => x.Trips == tripsCount);
 
             var message = $"{trips.Count()}";
 
