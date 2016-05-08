@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +34,8 @@ namespace Trains.DataStructures
     /// </summary>
     public static class GraphSearch
     {
+
+
         public static GraphSearchResult<T> MakeDepthFirstSearch<T>(this Graph<T> graph, T startNode)
         {
             if (graph == null)
@@ -133,28 +137,21 @@ namespace Trains.DataStructures
 
     public static class GraphExtensions
     {
-        public static IEnumerable<GraphNode<T>> DepthFirstTraversal<T>(this Graph<T> graph, T start)
+        public static IEnumerable<SearchResult<T>> DepthFirstTraversal<T>(this GraphNode<T> start)
         {
+            List<SearchResult<T>> results = new List<SearchResult<T>>();
             var visited = new HashSet<GraphNode<T>>();
             var stack = new Stack<GraphNode<T>>();
-
-            var startNode = graph.GetNode(start);
-            stack.Push(startNode);
-
-            int trips=0;
-
+            stack.Push(start);
             while (stack.Count != 0)
             {
                 var current = stack.Pop();
                 if (!visited.Add(current))
                     continue;
 
-                trips++;
-                yield return current;
-                var neighbours = current.Neighbors
-                                      .Where(n => !visited.Contains(n));
+                yield return new SearchResult<T>(start, current, new Stack<GraphNode<T>>(stack), new HashSet<GraphNode<T>>(visited));
+                var neighbours = current.Neighbors.Where(n => !visited.Contains(n));
 
-                // If you don't care about the left-to-right order, remove the Reverse
                 foreach (var neighbour in neighbours)
                 {
                     stack.Push(neighbour);
@@ -162,52 +159,104 @@ namespace Trains.DataStructures
             }
         }
 
-        public static IEnumerable<SearchResult<T>> DepthFirstTraversal<T>(this Graph<T> graph, T start, T end)
-        {
-            var visited = new HashSet<GraphNode<T>>();
-            var stack = new Stack<GraphNode<T>>();
-
-            var startNode = graph.GetNode(start);
-            stack.Push(startNode);
-
-            while (stack.Count != 0)
-            {
-                var current = stack.Pop();
-                if (!visited.Add(current))
-                    continue;
-
-                yield return new SearchResult<T>(current,stack,visited);
-                var neighbours = current.Neighbors
-                                      .Where(n => !visited.Contains(n));
-
-                // If you don't care about the left-to-right order, remove the Reverse
-                foreach (var neighbour in neighbours)
-                {
-                    stack.Push(neighbour);
-                }
-            }
-        }
     }
 
 
     public class SearchResult<T>
     {
-        private GraphNode<T> current;
-        private Stack<GraphNode<T>> stack;
-        private HashSet<GraphNode<T>> visited;
-
-        public int Steps { get; set; }
-        public GraphNode<T> Node { get; set; }
-        public bool Found { get; set; }
+        public GraphNode<T> CurrentNode { get; }
+        public GraphNode<T> StartNode { get; }
         public Stack<GraphNode<T>> Stack { get; set; }
         public HashSet<GraphNode<T>> Visited { get; set; }
-        public int TotalCost { get; set; }
 
-        public SearchResult(GraphNode<T> current, Stack<GraphNode<T>> stack, HashSet<GraphNode<T>> visited)
+        public SearchResult(GraphNode<T> start, GraphNode<T> current, Stack<GraphNode<T>> stack, HashSet<GraphNode<T>> visited)
         {
-            this.Node = current;
+            this.CurrentNode = current;
             this.Stack = stack;
             this.Visited = visited;
+            this.StartNode = start;
+        }
+    }
+
+    public static class SearchResultExtensions
+    {
+        public static IList<RouteCost<T>> GetRoutes<T>(this IEnumerable<SearchResult<T>> searchResults, T destination)
+        {
+            var startOfRoute = searchResults.FirstOrDefault()?.Visited.First();
+            List<Search.SearchResult<GraphNode<T>>> allPossibleRoutes = new List<Search.SearchResult<GraphNode<T>>>();
+            foreach (var result in searchResults)
+            {
+                allPossibleRoutes.AddRange(result.Visited.SelectMany(x => Search.Traversal2(x, n => n.Neighbors).ToList()));
+                allPossibleRoutes.AddRange(result.Stack.SelectMany(x => Search.Traversal2(x, n => n.Neighbors).ToList()));
+            }
+            var validRoutes = allPossibleRoutes.Where(x => x.Stack.Peek().NodeKey.Equals(destination));
+            var routes = validRoutes.Select(x =>
+            {
+                var routeCostsList = x.Visited.SelectWithPrevious((prev, curr) =>
+                {
+                    int total = 0;
+                    int prevToCurrentCost;
+                    if (prev.Costs.TryGetValue(curr.NodeKey, out prevToCurrentCost))
+                    {
+                        total += prevToCurrentCost;
+                    }
+                    return new Route<T>(prev, curr, prevToCurrentCost);
+                }).ToList();
+                return routeCostsList;
+            }).ToList();
+            return routes
+                .Where(x=>x.Count > 0 && startOfRoute.Neighbors.Any(n => n.NodeKey.Equals(x.First().From)))
+                .OrderBy(x => x.Count)
+                .Select(x => new RouteCost<T>(startOfRoute, x))
+                .ToList();
+        }
+
+        public static RouteCost<T> ByIds<T>(this IEnumerable<RouteCost<T>> routeCosts, IEnumerable<T> ids)
+        {
+            return routeCosts.Where(x => x.IsOnRoute(ids)).First();
+        }
+    }
+
+
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
+    public class Route<T>
+    {
+        public T From => from.NodeKey;
+        public T To => to.NodeKey;
+        public int Cost => cost;
+        readonly GraphNode<T> from;
+        readonly GraphNode<T> to;
+        readonly int cost;
+
+        public Route(GraphNode<T> from, GraphNode<T> to, int cost)
+        {
+            this.cost = cost;
+            this.to = to;
+            this.from = from;
+        }
+
+        private string DebuggerDisplay => $"from: {from.NodeKey} to: {to.NodeKey} cost: {cost}";
+    }
+
+    public static class Extensions
+    {
+        public static IEnumerable<TResult> SelectWithPrevious<TSource, TResult>
+    (this IEnumerable<TSource> source,
+     Func<TSource, TSource, TResult> projection)
+        {
+            using (var iterator = source.GetEnumerator())
+            {
+                if (!iterator.MoveNext())
+                {
+                    yield break;
+                }
+                TSource previous = iterator.Current;
+                while (iterator.MoveNext())
+                {
+                    yield return projection(previous, iterator.Current);
+                    previous = iterator.Current;
+                }
+            }
         }
     }
 }

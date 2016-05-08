@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Trains.Core.DataStructures
 {
+    [DebuggerDisplay("{data}")]
     public class GraphNode<T> 
     {
         private Dictionary<T,int> costs;
