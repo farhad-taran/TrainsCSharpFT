@@ -9,7 +9,7 @@ using Trains.DataStructures;
 
 namespace Trains.Core.Presentation.Commands
 {
-    public class CalculateNumberOfTrips : ICommand
+    public class CalculateShortestRoute : ICommand
     {
         private readonly IConsoleService consoleService;
         private readonly Graph<char> graph;
@@ -18,11 +18,9 @@ namespace Trains.Core.Presentation.Commands
         /// regex is not performant so we create an static instance using the compiled
         /// flag rather than keep creating a new instance.
         /// </summary>
-        static Regex maximumRegex = new Regex(@"tc\s[A-E]-[A-E]\sM\d+", RegexOptions.Compiled);
-        static Regex exactRegex = new Regex(@"tc\s[A-E]-[A-E]\sE\d+", RegexOptions.Compiled);
+        static Regex commandRegex = new Regex(@"sr\s[A-E]-[A-E]", RegexOptions.Compiled);
 
-
-        public CalculateNumberOfTrips(IConsoleService console, Graph<char> graph)
+        public CalculateShortestRoute(IConsoleService console, Graph<char> graph)
         {
             this.graph = graph;
             this.consoleService = console;
@@ -30,20 +28,15 @@ namespace Trains.Core.Presentation.Commands
 
         public CommandResult Execute()
         {
-            consoleService.Write("Please enter command in the following formats : tc C-C M3 or tc C-C E3");
-            var input = consoleService.ReadLine();
-            var countMaximumMatch = maximumRegex.Match(input);
-            var countExactMatch = exactRegex.Match(input);
-            if (countMaximumMatch.Success == false && countExactMatch.Success == false)
-            {
-                return CommandResult.Fail("Invalid command");
-            }
+            consoleService.Write("Please enter command in the following formats : sr A-C");
+            string input = consoleService.ReadLine();
+            Match match = commandRegex.Match(input);
+            if (match.Success == false)
+                return CommandResult.Fail("");
 
             var chars = input.ToCharArray();
             var firstNodeChar = chars[3];
             var lastNodeChar = chars[5];
-            int tripsCount = int.Parse(chars[8].ToString());
-            bool maxTrips = chars[7] == 'M';
 
             var startNode = graph.GetNode(firstNodeChar);
             var searchResult = startNode
@@ -55,13 +48,10 @@ namespace Trains.Core.Presentation.Commands
             var trips = cost.Where(
                 x =>
                 x.StartsAt(firstNodeChar) &&
-                x.EndsAt(lastNodeChar));
+                x.EndsAt(lastNodeChar))
+                .OrderBy(x=>x.TotalCost);
 
-            var count = maxTrips ? 
-                trips.Where(x => x.Trips <= tripsCount) : 
-                trips.Where(x => x.Trips == tripsCount);
-
-            var message = $"{trips.Count()}";
+            var message = $"{trips.First().TotalCost}";
 
             return CommandResult.Ok(message);
         }
