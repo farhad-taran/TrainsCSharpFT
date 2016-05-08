@@ -58,9 +58,15 @@
     <Compile Include="DataStructures\GraphTests\GraphTestBase.cs" />
     <Compile Include="Presentation\CommandsTests\AddDirectedEdgeTests\AddDirectedEdgeTestBase.cs" />
     <Compile Include="Presentation\CommandsTests\CalculateDistanceTests\CalculateDistanceTestBase.cs" />
+    <Compile Include="Presentation\CommandsTests\CalculateDistanceTests\WhenValidInputAED.cs" />
     <Compile Include="Presentation\CommandsTests\CalculateNumberOfTripsTests\CalculateNumberOfTripsTestBase.cs" />
+    <Compile Include="Presentation\CommandsTests\CalculateNumberOfTripsTests\WhenCommandIsInvalid.cs" />
+    <Compile Include="Presentation\CommandsTests\CalculateNumberOfTripsTests\WhenCommandIsValidExactTripsCount.cs" />
+    <Compile Include="Presentation\CommandsTests\CalculateNumberOfTripsTests\WhenCommandIsValidMaxTripsCount.cs" />
     <Compile Include="Presentation\CommandsTests\CalculateShortestRouteTests\CalculateShortestRouteTestBase.cs" />
-    <Compile Include="Presentation\ConsoleUserInterfaceTests\ConsoleUserInterfaceTestBase.cs" />
+    <Compile Include="Presentation\CommandsTests\CalculateShortestRouteTests\WhenCommandIsInvalid.cs" />
+    <Compile Include="Presentation\CommandsTests\CalculateShortestRouteTests\WhenCommandIsValidMaxTripsCount.cs" />
+    <Compile Include="Presentation\CommandsTests\CalculateShortestRouteTests\WhenCommandIsValidMaxTripsCountBB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

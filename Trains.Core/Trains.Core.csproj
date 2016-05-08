@@ -53,9 +53,8 @@
     <Compile Include="Presentation\Commands\ICommand.cs" />
     <Compile Include="Presentation\Commands\ResetCommand.cs" />
     <Compile Include="Presentation\ConsoleService.cs" />
-    <Compile Include="Presentation\ConsoleUserInterface.cs" />
-    <Compile Include="Presentation\IUserInterface.cs" />
     <Compile Include="DataStructures\GraphSearch.cs" />
+    <Compile Include="Presentation\MenuItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
