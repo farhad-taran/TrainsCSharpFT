@@ -208,12 +208,14 @@ namespace Trains.DataStructures
                 .Where(x=>x.Count > 0 && startOfRoute.Neighbors.Any(n => n.NodeKey.Equals(x.First().From)))
                 .OrderBy(x => x.Count)
                 .Select(x => new RouteCost<T>(startOfRoute, x))
+                .GroupBy(g=>new { trips = g.Trips, total = g.TotalCost})
+                .Select(x=>x.First())
                 .ToList();
         }
 
-        public static RouteCost<T> ByIds<T>(this IEnumerable<RouteCost<T>> routeCosts, IEnumerable<T> ids)
+        public static RouteCost<T> GetCostByIds<T>(this IEnumerable<RouteCost<T>> routeCosts, IEnumerable<T> ids)
         {
-            return routeCosts.Where(x => x.IsOnRoute(ids)).First();
+            return routeCosts.Where(x => x.IsOnRoute(ids)).FirstOrDefault();
         }
     }
 

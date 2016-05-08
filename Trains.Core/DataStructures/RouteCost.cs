@@ -11,23 +11,25 @@ namespace Trains.Core.DataStructures
     {
         private List<Route<T>> applicableRoute;
         readonly GraphNode<T> routeStart;
-        readonly int routeStartCost;
+        readonly int trips;
 
         public RouteCost(GraphNode<T> routeStart, List<Route<T>> applicableRoute)
         {
             this.routeStart = routeStart;
             this.applicableRoute = applicableRoute;
-            TotalCost = applicableRoute.Sum(x => x.Cost)+routeStart.Costs[applicableRoute.First().From];
+            TotalCost = applicableRoute.Sum(x => x.Cost) + routeStart.Costs[applicableRoute.First().From];
+            trips = applicableRoute.Count + 1;
         }
 
+        public int Trips => trips;
         public int TotalCost { get; }
 
-        private bool StartsAt(T node)
+        public bool StartsAt(T node)
         {
             return routeStart.NodeKey.Equals(node);
         }
 
-        private bool EndsAt(T node)
+        public bool EndsAt(T node)
         {
             return applicableRoute.Last().To.Equals(node);
         }
@@ -37,7 +39,7 @@ namespace Trains.Core.DataStructures
             var startsAt = StartsAt(stops.First());
             var endsAt = EndsAt(stops.Last());
             var midStops = stops.Skip(1).Take(stops.Count() - 2);
-            var visistsMidStops = midStops.SequenceEqual(applicableRoute.Select(x=>x.From));
+            var visistsMidStops = midStops.SequenceEqual(applicableRoute.Select(x => x.From));
             return startsAt && endsAt && visistsMidStops;
         }
     }

@@ -48,6 +48,7 @@
     <Compile Include="DataStructures\Search.cs" />
     <Compile Include="Presentation\Commands\AddDirectedEdge.cs" />
     <Compile Include="Presentation\Commands\CalculateDistance.cs" />
+    <Compile Include="Presentation\Commands\CalculateNumberOfTrips.cs" />
     <Compile Include="Presentation\Commands\ICommand.cs" />
     <Compile Include="Presentation\Commands\QuitCommand.cs" />
     <Compile Include="Presentation\Commands\ResetCommand.cs" />

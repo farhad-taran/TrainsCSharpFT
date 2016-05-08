@@ -58,6 +58,7 @@
     <Compile Include="DataStructures\GraphTests\GraphTestBase.cs" />
     <Compile Include="Presentation\CommandsTests\AddDirectedEdgeTests\AddDirectedEdgeTestBase.cs" />
     <Compile Include="Presentation\CommandsTests\CalculateDistanceTests\CalculateDistanceTestBase.cs" />
+    <Compile Include="Presentation\CommandsTests\CalculateNumberOfTripsTests\CalculateNumberOfTripsTestBase.cs" />
     <Compile Include="Presentation\CommandsTests\ResetCommandTests\ResetCommandTestBase.cs" />
     <Compile Include="Presentation\ConsoleUserInterfaceTests\ConsoleUserInterfaceTestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

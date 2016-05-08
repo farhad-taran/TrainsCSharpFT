@@ -46,11 +46,13 @@ namespace Trains.Core.Presentation.Commands
                 .DepthFirstTraversal()
                 .Where(x => x.CurrentNode.NodeKey == lastChar);
 
-            var routes = searchResult
+            var cost = searchResult
                 .GetRoutes(lastChar)
-                .ByIds(nodes);     
+                .GetCostByIds(nodes);
 
-            return CommandResult.Ok($"{routes.TotalCost}");
+            var message = cost == null ? "NO SUCH ROUTE" : $"{cost.TotalCost}";
+
+            return CommandResult.Ok(message);
         }        
     }
 }
