@@ -41,5 +41,4 @@ namespace Trains.Core.Tests.Presentation.CommandsTests.CalculateNumberOfTripsTes
             Assert.AreEqual("3", CommandResult.Message);
         }
     }
-
 }

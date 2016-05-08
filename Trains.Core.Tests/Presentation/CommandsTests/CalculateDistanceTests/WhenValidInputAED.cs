@@ -42,5 +42,4 @@ namespace Trains.Core.Tests.Presentation.CommandsTests.CalculateDistanceTests
             Assert.AreEqual("NO SUCH ROUTE", CommandResult.Message);
         }
     }
-
 }

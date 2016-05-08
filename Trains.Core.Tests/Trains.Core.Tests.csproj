@@ -57,7 +57,14 @@
     <Compile Include="DataStructures\GraphSearchTests\MakeDepthFirstSearch\MakeDepthFirstSearchTestBase.cs" />
     <Compile Include="DataStructures\GraphTests\GraphTestBase.cs" />
     <Compile Include="Presentation\CommandsTests\AddDirectedEdgeTests\AddDirectedEdgeTestBase.cs" />
+    <Compile Include="Presentation\CommandsTests\AddDirectedEdgeTests\WhenUserInputIsInvalid.cs" />
+    <Compile Include="Presentation\CommandsTests\AddDirectedEdgeTests\WhenUserInputIsValid.cs" />
+    <Compile Include="Presentation\CommandsTests\AddDirectedEdgeTests\WhenUserInputIsValidAndAddingMultipleEdges.cs" />
     <Compile Include="Presentation\CommandsTests\CalculateDistanceTests\CalculateDistanceTestBase.cs" />
+    <Compile Include="Presentation\CommandsTests\CalculateDistanceTests\WhenInvalidInput.cs" />
+    <Compile Include="Presentation\CommandsTests\CalculateDistanceTests\WhenValidInputABC.cs" />
+    <Compile Include="Presentation\CommandsTests\CalculateDistanceTests\WhenValidInputADC.cs" />
+    <Compile Include="Presentation\CommandsTests\CalculateDistanceTests\WhenValidInputAEBCD.cs" />
     <Compile Include="Presentation\CommandsTests\CalculateDistanceTests\WhenValidInputAED.cs" />
     <Compile Include="Presentation\CommandsTests\CalculateNumberOfTripsTests\CalculateNumberOfTripsTestBase.cs" />
     <Compile Include="Presentation\CommandsTests\CalculateNumberOfTripsTests\WhenCommandIsInvalid.cs" />

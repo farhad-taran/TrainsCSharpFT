@@ -9,23 +9,23 @@ using Trains.Core.DataStructures;
 using Trains.Core.Presentation;
 using Trains.Core.Presentation.Commands;
 
-namespace Trains.Core.Tests.Presentation.CommandsTests.CalculateNumberOfTripsTests
+namespace Trains.Core.Tests.Presentation.CommandsTests.AddDirectedEdgeTests
 {
 
     [TestClass]
-    public class WhenCommandIsInvalid:CalculateNumberOfTripsTestBase
+    public class WhenUserInputIsValid:AddDirectedEdgeTestBase
     {
         [TestInitialize]
         public override void BaseInitialize()
         {
-            ConsoleService.Setup(x => x.ReadLine()).Returns("invalid input");
+            ConsoleService.Setup(x => x.ReadLine()).Returns("AB5");
             base.BaseInitialize();
         }
 
         [TestMethod]
         public void WritesCommandInstructions()
         {
-            ConsoleService.Verify(x => x.Write("Please enter command in the following formats : tc C-C M3 or tc C-C E3"), Times.Once());
+            ConsoleService.Verify(x => x.Write("Please enter command in the following format : a AB5 or AB5,BC6,CD7"), Times.Once());
         }
 
         [TestMethod]
@@ -35,9 +35,17 @@ namespace Trains.Core.Tests.Presentation.CommandsTests.CalculateNumberOfTripsTes
         }
 
         [TestMethod]
-        public void ReturnsFailResult()
+        public void ReturnsSuccessResult()
         {
-            Assert.IsFalse(CommandResult.Success);
+            Assert.IsTrue(CommandResult.Success);
+            Assert.AreEqual("Inserted directed edges for AB5", CommandResult.Message);
+        }
+
+        [TestMethod]
+        public void AddsDirectedEdgeToGraph()
+        {
+            Assert.AreEqual(2, Graph.Count);
+            Assert.AreEqual(5, Graph.GetNode('A').Costs['B']);
         }
     }
 }

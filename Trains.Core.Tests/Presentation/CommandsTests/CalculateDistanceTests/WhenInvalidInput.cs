@@ -8,12 +8,13 @@ using System.Threading.Tasks;
 using Trains.Core.DataStructures;
 using Trains.Core.Presentation;
 using Trains.Core.Presentation.Commands;
+using Trains.DataStructures;
 
-namespace Trains.Core.Tests.Presentation.CommandsTests.CalculateNumberOfTripsTests
+namespace Trains.Core.Tests.Presentation.CommandsTests.CalculateDistanceTests
 {
 
     [TestClass]
-    public class WhenCommandIsInvalid:CalculateNumberOfTripsTestBase
+    public class WhenInvalidInput: CalculateDistanceTestBase
     {
         [TestInitialize]
         public override void BaseInitialize()
@@ -25,7 +26,7 @@ namespace Trains.Core.Tests.Presentation.CommandsTests.CalculateNumberOfTripsTes
         [TestMethod]
         public void WritesCommandInstructions()
         {
-            ConsoleService.Verify(x => x.Write("Please enter command in the following formats : tc C-C M3 or tc C-C E3"), Times.Once());
+            ConsoleService.Verify(x => x.Write("Please enter command in the following format : d A-B-C"), Times.Once());
         }
 
         [TestMethod]
