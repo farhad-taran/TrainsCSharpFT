@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 using Trains.Core.DataStructures;
+using Trains.Core.Domain;
 
 namespace Trains.Core.Presentation.Commands
 {
@@ -13,13 +9,7 @@ namespace Trains.Core.Presentation.Commands
         private readonly IConsoleService consoleService;
         private readonly Graph<char> graph;
 
-        /// <summary>
-        /// regex is not performant so we create an static instance using the compiled
-        /// flag rather than keep creating a new instance.
-        /// </summary>
-        static Regex commandRegex = new Regex(@"d\s*([A-E]){1}(-[A-E]{1})*", RegexOptions.Compiled);
-
-        static Regex nodesRegex = new Regex(@"[A-E]");
+        static Regex commandRegex = new Regex(@"nr\s*([A-E]){1}(-[A-E]{1})*\s\d+", RegexOptions.Compiled);
 
         public CalculateRoutesWithLessDistance(IConsoleService console, Graph<char> graph)
         {
@@ -29,26 +19,23 @@ namespace Trains.Core.Presentation.Commands
 
         public CommandResult Execute()
         {
-            consoleService.Write("Please enter command in the following format : d A-B-C");
+            consoleService.Write("Please enter command in the following formats : nr C-C 30");
             string input = consoleService.ReadLine();
             Match match = commandRegex.Match(input);
             if (match.Success == false)
                 return CommandResult.Fail("");
 
-            var nodes = nodesRegex.Matches(input).Cast<Match>().Select(x => char.Parse(x.Value)).ToList();
-            var firstChar = nodes.First();
-            var lastChar = nodes.Last();
+            var chars = input.ToCharArray();
+            var firstNodeChar = chars[3];
+            var lastNodeChar = chars[5];
 
-            var startNode = graph.GetNode(firstChar);
-            var searchResult = startNode
-                .DepthFirstTraversal()
-                .Where(x => x.CurrentNode.NodeKey == lastChar);
+            var startNode = graph.GetNode(firstNodeChar);
 
-            var cost = searchResult
-                .GetRoutes(lastChar)
-                .GetCostByIds(nodes);
+            var shortestRoute = graph.GetShortestRoute(firstNodeChar, lastNodeChar);
 
-            var message = cost == null ? "NO SUCH ROUTE" : $"{cost.TotalCost}";
+            var s = graph.GetAllPossibleRoutes(firstNodeChar, lastNodeChar);
+
+            var message = $"{shortestRoute.Total}";
 
             return CommandResult.Ok(message);
         }

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Trains.DataStructures;
+using Trains.Core.DataStructures;
+using Trains.Core.Domain;
 
-namespace Trains.Core.DataStructures
+namespace Trains.Core.Domain
 {
     public class RouteCost<T>
     {

@@ -1,11 +1,4 @@
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Trains.Core.Presentation.Commands;
-using Trains.DataStructures;
 
 namespace Trains.Core.Presentation
 {

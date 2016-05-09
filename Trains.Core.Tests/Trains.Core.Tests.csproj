@@ -54,7 +54,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="DataStructures\GraphSearchTests\MakeDepthFirstSearch\MakeDepthFirstSearchTestBase.cs" />
     <Compile Include="DataStructures\GraphTests\GraphTestBase.cs" />
     <Compile Include="Presentation\CommandsTests\AddDirectedEdgeTests\AddDirectedEdgeTestBase.cs" />
     <Compile Include="Presentation\CommandsTests\AddDirectedEdgeTests\WhenUserInputIsInvalid.cs" />
@@ -70,6 +69,7 @@
     <Compile Include="Presentation\CommandsTests\CalculateNumberOfTripsTests\WhenCommandIsInvalid.cs" />
     <Compile Include="Presentation\CommandsTests\CalculateNumberOfTripsTests\WhenCommandIsValidExactTripsCount.cs" />
     <Compile Include="Presentation\CommandsTests\CalculateNumberOfTripsTests\WhenCommandIsValidMaxTripsCount.cs" />
+    <Compile Include="Presentation\CommandsTests\CalculateRoutesWithLessDistanceTests\CalculateRoutesWithLessDistanceTestBase.cs" />
     <Compile Include="Presentation\CommandsTests\CalculateShortestRouteTests\CalculateShortestRouteTestBase.cs" />
     <Compile Include="Presentation\CommandsTests\CalculateShortestRouteTests\WhenCommandIsInvalid.cs" />
     <Compile Include="Presentation\CommandsTests\CalculateShortestRouteTests\WhenCommandIsValidMaxTripsCount.cs" />

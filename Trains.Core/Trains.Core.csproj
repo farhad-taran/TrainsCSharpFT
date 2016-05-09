@@ -42,10 +42,12 @@
   <ItemGroup>
     <Compile Include="DataStructures\Graph.cs" />
     <Compile Include="DataStructures\GraphNode.cs" />
-    <Compile Include="DataStructures\Node.cs" />
-    <Compile Include="DataStructures\NodeList.cs" />
-    <Compile Include="DataStructures\RouteCost.cs" />
+    <Compile Include="Domain\RouteCost.cs" />
     <Compile Include="DataStructures\Search.cs" />
+    <Compile Include="Domain\SearchResult.cs" />
+    <Compile Include="Domain\TraversalSearchResult.cs" />
+    <Compile Include="Domain\Route.cs" />
+    <Compile Include="Domain\ShortestRoute.cs" />
     <Compile Include="Presentation\Commands\AddDirectedEdge.cs" />
     <Compile Include="Presentation\Commands\CalculateDistance.cs" />
     <Compile Include="Presentation\Commands\CalculateNumberOfTrips.cs" />
@@ -54,9 +56,13 @@
     <Compile Include="Presentation\Commands\ICommand.cs" />
     <Compile Include="Presentation\Commands\ResetCommand.cs" />
     <Compile Include="Presentation\ConsoleService.cs" />
-    <Compile Include="DataStructures\GraphSearch.cs" />
+    <Compile Include="Domain\GraphSearch.cs" />
     <Compile Include="Presentation\MenuItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\GraphExtensions.cs" />
+    <Compile Include="Utilities\IEnumerableExtensions.cs" />
+    <Compile Include="Utilities\RouteCostExtensions.cs" />
+    <Compile Include="Utilities\SearchResultExtensions.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

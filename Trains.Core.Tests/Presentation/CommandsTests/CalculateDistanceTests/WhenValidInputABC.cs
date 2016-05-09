@@ -1,14 +1,6 @@
-using System;
-using System.Linq;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System.Text;
-using System.Threading.Tasks;
-using Trains.Core.DataStructures;
-using Trains.Core.Presentation;
 using Trains.Core.Presentation.Commands;
-using Trains.DataStructures;
 
 namespace Trains.Core.Tests.Presentation.CommandsTests.CalculateDistanceTests
 {
