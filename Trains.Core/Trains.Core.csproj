@@ -42,7 +42,6 @@
   <ItemGroup>
     <Compile Include="DataStructures\Graph.cs" />
     <Compile Include="DataStructures\GraphNode.cs" />
-    <Compile Include="DataStructures\QueueItem.cs" />
     <Compile Include="Domain\RouteCost.cs" />
     <Compile Include="DataStructures\Search.cs" />
     <Compile Include="Domain\SearchResult.cs" />

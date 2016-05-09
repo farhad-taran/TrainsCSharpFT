@@ -28,6 +28,7 @@ namespace Trains.UI
                 new MenuItem("Calculate distance","cd",new CalculateDistance(consoleService,graph)),
                 new MenuItem("Calculate number of trips","tc",new CalculateNumberOfTrips(consoleService,graph)),
                 new MenuItem("Calculate shortest route","sr",new CalculateShortestRoute(consoleService,graph)),
+                new MenuItem("Calculate shortest route","nr",new CalculateRoutesWithLessDistance(consoleService,graph)),
             };
 
             menuItems.Select(x => $"{x.Key} : {x.Caption}")

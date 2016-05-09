@@ -38,92 +38,63 @@ namespace Trains.Core.Domain
 
     public static class GraphSearch
     {
-        public static void FindAllRoutes<T>(this Graph<T> graph, T start, T end)
+        public static IEnumerable<SearchResult<T>> GetAllPossibleRoutes<T>(this Graph<T> graph, T start, T destination)
         {
-            var queue = new Queue<QueueItem<T>>();
+            List<SearchResult<T>> searchResults = new List<SearchResult<T>>();
 
-            queue.Enqueue(new QueueItem<T>(graph.GetNode(start), new HashSet<GraphNode<T>>()));
-            while (queue.Count > 0)
+            foreach (var item in graph.Nodes)
             {
-                var currentItem = queue.Dequeue();
-                foreach (var edge in currentItem.Node.Neighbors)
-                {
-                    if (!currentItem.Visited.Contains(edge))
-                    {
-                        HashSet<GraphNode<T>> visited = new HashSet<GraphNode<T>>(currentItem.Visited);
-                        visited.Add(edge);
-                        if (edge.NodeKey.Equals(end))
-                        {
-                            // visited.Count is the path length
-                            // visited.Sum(e => e.Weight) is the total weight
-                        }
-                        else
-                        {
-                            queue.Enqueue(new QueueItem<T>(edge, visited));
-                        }
-                    }
-                }
+                List<SearchResult<T>> routeResults = item.DepthFirstTraversal()
+                    .Where(x => x.CurrentNode.NodeKey.Equals(destination))
+                    .ToList();
+                searchResults.AddRange(routeResults);
             }
+            return searchResults;
         }
-    
 
-    public static IEnumerable<SearchResult<T>> GetAllPossibleRoutes<T>(this Graph<T> graph, T start, T destination)
-    {
-        List<SearchResult<T>> searchResults = new List<SearchResult<T>>();
-
-        foreach (var item in graph.Nodes)
+        public static IEnumerable<SearchResult<T>> GetRoutes<T>(this Graph<T> graph, T start, T destination)
         {
-            List<SearchResult<T>> routeResults = item.DepthFirstTraversal()
-                .Where(x => x.CurrentNode.NodeKey.Equals(destination))
-                .ToList();
-            searchResults.AddRange(routeResults);
+            List<SearchResult<T>> searchResults = new List<SearchResult<T>>();
+
+            var startNode = graph.GetNode(start);
+
+            foreach (var item in startNode.Neighbors)
+            {
+                List<SearchResult<T>> routeResults = item.DepthFirstTraversal()
+                    .Where(x => x.CurrentNode.NodeKey.Equals(destination))
+                    .ToList();
+                searchResults.AddRange(routeResults);
+            }
+            return searchResults;
         }
-        return searchResults;
-    }
 
-    public static IEnumerable<SearchResult<T>> GetRoutes<T>(this Graph<T> graph, T start, T destination)
-    {
-        List<SearchResult<T>> searchResults = new List<SearchResult<T>>();
-
-        var startNode = graph.GetNode(start);
-
-        foreach (var item in startNode.Neighbors)
+        public static ShortestRoute GetShortestRoute<T>(this Graph<T> graph, T start, T destination)
         {
-            List<SearchResult<T>> routeResults = item.DepthFirstTraversal()
-                .Where(x => x.CurrentNode.NodeKey.Equals(destination))
-                .ToList();
-            searchResults.AddRange(routeResults);
+            var startNode = graph.GetNode(start);
+            var searchResults = graph.GetRoutes(start, destination);
+            var shortesRout = searchResults.OrderBy(x => x.Visited.Count).FirstOrDefault();
+            if (shortesRout != null)
+            {
+                var shortestRouteCost = shortesRout.GetTotalCost();
+                var startToNeighborCost = startNode.Costs[shortesRout.Visited.First().NodeKey];
+                int totalCost = shortestRouteCost + startToNeighborCost;
+                var routeTrips = shortesRout.Visited.Count + 1;
+                return new ShortestRoute(totalCost, routeTrips);
+            }
+            return null;
         }
-        return searchResults;
-    }
 
-    public static ShortestRoute GetShortestRoute<T>(this Graph<T> graph, T start, T destination)
-    {
-        var startNode = graph.GetNode(start);
-        var searchResults = graph.GetRoutes(start, destination);
-        var shortesRout = searchResults.OrderBy(x => x.Visited.Count).FirstOrDefault();
-        if (shortesRout != null)
+        public static int GetTotalCost<T>(this SearchResult<T> searchResult)
         {
-            var shortestRouteCost = shortesRout.GetTotalCost();
-            var startToNeighborCost = startNode.Costs[shortesRout.Visited.First().NodeKey];
-            int totalCost = shortestRouteCost + startToNeighborCost;
-            var routeTrips = shortesRout.Visited.Count + 1;
-            return new ShortestRoute(totalCost, routeTrips);
+            var visitedNodes = searchResult.Visited.Select(x => x).ToArray();
+            int total = 0;
+            for (int i = 1; i < visitedNodes.Length; i++)
+            {
+                var prevNode = visitedNodes[i - 1];
+                var currNode = visitedNodes[i];
+                total += prevNode.Costs[currNode.NodeKey];
+            }
+            return total;
         }
-        return null;
-    }
-
-    public static int GetTotalCost<T>(this SearchResult<T> searchResult)
-    {
-        var visitedNodes = searchResult.Visited.Select(x => x).ToArray();
-        int total = 0;
-        for (int i = 1; i < visitedNodes.Length; i++)
-        {
-            var prevNode = visitedNodes[i - 1];
-            var currNode = visitedNodes[i];
-            total += prevNode.Costs[currNode.NodeKey];
-        }
-        return total;
-    }
-}  
+    }  
 }

@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Linq;
+using System.Text.RegularExpressions;
 using Trains.Core.DataStructures;
 using Trains.Core.Domain;
 
@@ -10,6 +11,7 @@ namespace Trains.Core.Presentation.Commands
         private readonly Graph<char> graph;
 
         static Regex commandRegex = new Regex(@"nr\s*([A-E]){1}(-[A-E]{1})*\s\d+", RegexOptions.Compiled);
+        static Regex numbersRegex = new Regex(@"\d+", RegexOptions.Compiled);
 
         public CalculateRoutesWithLessDistance(IConsoleService console, Graph<char> graph)
         {
@@ -23,19 +25,17 @@ namespace Trains.Core.Presentation.Commands
             string input = consoleService.ReadLine();
             Match match = commandRegex.Match(input);
             if (match.Success == false)
-                return CommandResult.Fail("");
+                return CommandResult.Fail("invalid input");
 
             var chars = input.ToCharArray();
             var firstNodeChar = chars[3];
             var lastNodeChar = chars[5];
+            int distance = int.Parse(numbersRegex.Match(input).Value);
 
-            var startNode = graph.GetNode(firstNodeChar);
+            var allPossibleRoutes = graph.GetAllPossibleRoutes(firstNodeChar, lastNodeChar)
+                .Where(x => x.Visited.Count < distance);
 
-            var shortestRoute = graph.GetShortestRoute(firstNodeChar, lastNodeChar);
-
-            var s = graph.GetAllPossibleRoutes(firstNodeChar, lastNodeChar);
-
-            var message = $"{shortestRoute.Total}";
+            var message = $"{allPossibleRoutes.Count()}";
 
             return CommandResult.Ok(message);
         }
