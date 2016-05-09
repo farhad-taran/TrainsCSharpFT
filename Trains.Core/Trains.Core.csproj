@@ -49,6 +49,7 @@
     <Compile Include="Presentation\Commands\AddDirectedEdge.cs" />
     <Compile Include="Presentation\Commands\CalculateDistance.cs" />
     <Compile Include="Presentation\Commands\CalculateNumberOfTrips.cs" />
+    <Compile Include="Presentation\Commands\CalculateRoutesWithLessDistance.cs" />
     <Compile Include="Presentation\Commands\CalculateShortestRoute.cs" />
     <Compile Include="Presentation\Commands\ICommand.cs" />
     <Compile Include="Presentation\Commands\ResetCommand.cs" />

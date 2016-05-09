@@ -32,9 +32,64 @@ namespace Trains.DataStructures
     /// encapsulates the result of each call to this method, we can then stub this result class in our
     /// tests and create the different state that we require for each of our unit tests
     /// </summary>
+    /// 
+
+    public class ShortestRoute
+    {
+        private int trips;
+        private int totalCost;
+
+        public ShortestRoute(int totalCost, int trips)
+        {
+            this.totalCost = totalCost;
+            this.trips = trips;
+        }
+
+        public int Total => totalCost;
+        public int Trips => trips;
+    }
+
     public static class GraphSearch
     {
+        public static ShortestRoute GetShortestRoute<T>(this Graph<T> graph, T start, T destination)
+        {
+            List<SearchResult<T>> searchResults = new List<SearchResult<T>>();
 
+            var startNode = graph.GetNode(start);
+
+            foreach (var item in startNode.Neighbors)
+            {
+                List<SearchResult<T>> routeResults = item.DepthFirstTraversal()
+                    .Where(x => x.CurrentNode.NodeKey.Equals(destination))
+                    .ToList();
+                searchResults.AddRange(routeResults);
+            }
+
+            var shortesRout = searchResults.OrderBy(x => x.Visited.Count).FirstOrDefault();
+
+            if (shortesRout != null)
+            {
+                var shortestRouteCost = shortesRout.GetTotalCost();
+                var startToNeighborCost = startNode.Costs[shortesRout.Visited.First().NodeKey];
+                int totalCost = shortestRouteCost + startToNeighborCost;
+                var routeTrips = shortesRout.Visited.Count + 1;
+                return new ShortestRoute(totalCost, routeTrips);
+            }
+            return null;
+        }
+
+        public static int GetTotalCost<T>(this SearchResult<T> searchResult)
+        {
+            var visitedNodes = searchResult.Visited.Select(x => x).ToArray();
+            int total = 0;
+            for (int i = 1; i < visitedNodes.Length; i++)
+            {
+                var prevNode = visitedNodes[i - 1];
+                var currNode = visitedNodes[i];
+                total += prevNode.Costs[currNode.NodeKey];
+            }
+            return total;
+        }
 
         public static GraphSearchResult<T> MakeDepthFirstSearch<T>(this Graph<T> graph, T startNode)
         {
@@ -205,11 +260,11 @@ namespace Trains.DataStructures
                 return routeCostsList;
             }).ToList();
             return routes
-                .Where(x=>x.Count > 0 && startOfRoute.Neighbors.Any(n => n.NodeKey.Equals(x.First().From)))
+                .Where(x => x.Count > 0 && startOfRoute.Neighbors.Any(n => n.NodeKey.Equals(x.First().From)))
                 .OrderBy(x => x.Count)
                 .Select(x => new RouteCost<T>(startOfRoute, x))
-                .GroupBy(g=>new { trips = g.Trips, total = g.TotalCost})
-                .Select(x=>x.First())
+                .GroupBy(g => new { trips = g.Trips, total = g.TotalCost })
+                .Select(x => x.First())
                 .ToList();
         }
 

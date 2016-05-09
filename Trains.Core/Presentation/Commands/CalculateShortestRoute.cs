@@ -39,20 +39,10 @@ namespace Trains.Core.Presentation.Commands
             var lastNodeChar = chars[5];
 
             var startNode = graph.GetNode(firstNodeChar);
-            var searchResult = startNode
-                .DepthFirstTraversal()
-                .Where(x=>x.CurrentNode!=startNode).ToList();
 
-            var cost = searchResult
-               .GetRoutes(lastNodeChar);
-
-            var trips = cost.Where(
-                x =>
-                x.StartsAt(firstNodeChar) &&
-                x.EndsAt(lastNodeChar))
-                .OrderBy(x=>x.TotalCost);
-
-            var message = $"{trips.First().TotalCost}";
+            var shortestRoute = graph.GetShortestRoute(firstNodeChar, lastNodeChar);
+            
+            var message = $"{shortestRoute.Total}";
 
             return CommandResult.Ok(message);
         }

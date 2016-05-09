@@ -6,3 +6,11 @@ C:\Users\X\Documents\TrainsCSharpFT\Trains.UI\bin\Debug\Trains.Core.pdb
 C:\Users\X\Documents\TrainsCSharpFT\Trains.UI\obj\Debug\Trains.UI.csprojResolveAssemblyReference.cache
 C:\Users\X\Documents\TrainsCSharpFT\Trains.UI\obj\Debug\Trains.UI.exe
 C:\Users\X\Documents\TrainsCSharpFT\Trains.UI\obj\Debug\Trains.UI.pdb
+C:\Users\farha\Documents\TrainsCSharpFT\Trains.UI\bin\Debug\Trains.UI.exe.config
+C:\Users\farha\Documents\TrainsCSharpFT\Trains.UI\bin\Debug\Trains.UI.exe
+C:\Users\farha\Documents\TrainsCSharpFT\Trains.UI\bin\Debug\Trains.UI.pdb
+C:\Users\farha\Documents\TrainsCSharpFT\Trains.UI\bin\Debug\Trains.Core.dll
+C:\Users\farha\Documents\TrainsCSharpFT\Trains.UI\bin\Debug\Trains.Core.pdb
+C:\Users\farha\Documents\TrainsCSharpFT\Trains.UI\obj\Debug\Trains.UI.exe
+C:\Users\farha\Documents\TrainsCSharpFT\Trains.UI\obj\Debug\Trains.UI.pdb
+C:\Users\farha\Documents\TrainsCSharpFT\Trains.UI\obj\Debug\Trains.UI.csprojResolveAssemblyReference.cache

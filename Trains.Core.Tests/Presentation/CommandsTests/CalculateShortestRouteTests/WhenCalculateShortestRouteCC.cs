@@ -13,7 +13,7 @@ namespace Trains.Core.Tests.Presentation.CommandsTests.CalculateShortestRouteTes
 {
 
     [TestClass]
-    public class WhenCommandIsValidMaxTripsCountBB : CalculateShortestRouteTestBase
+    public class WhenCalculateShortestRouteCC : CalculateShortestRouteTestBase
     {
         [TestInitialize]
         public override void BaseInitialize()
