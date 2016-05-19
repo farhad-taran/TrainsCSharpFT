@@ -42,11 +42,7 @@ namespace Trains.Core.Presentation.Commands
             bool maxTrips = chars[7] == 'M';
 
             var startNode = graph.GetNode(firstNodeChar);
-            var searchResult = startNode
-                .DepthFirstTraversal().ToList();
-
-            var cost = searchResult
-               .GetRoutes(lastNodeChar);
+            var cost = startNode.GetRoutes(lastNodeChar);
 
             var trips = cost.Where(
                 x =>

@@ -81,7 +81,7 @@ namespace Trains.Core.Tests.Presentation.CommandsTests.CalculateRoutesWithLessDi
         public void ReturnsOkResult()
         {
             Assert.IsTrue(CommandResult.Success);
-            Assert.AreEqual("5", CommandResult.Message);
+            Assert.AreEqual("7", CommandResult.Message);
         }
     }
 }

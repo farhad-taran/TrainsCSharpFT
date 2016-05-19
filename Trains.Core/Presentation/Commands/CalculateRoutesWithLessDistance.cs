@@ -32,7 +32,7 @@ namespace Trains.Core.Presentation.Commands
             var lastNodeChar = chars[5];
             int distance = int.Parse(numbersRegex.Match(input).Value);
 
-            var allPossibleRoutes = graph.GetAllPossibleRoutes(firstNodeChar, lastNodeChar)
+            var allPossibleRoutes = graph.GetAllPossibleRoutes(lastNodeChar)
                 .Where(x => x.Visited.Count < distance);
 
             var message = $"{allPossibleRoutes.Count()}";

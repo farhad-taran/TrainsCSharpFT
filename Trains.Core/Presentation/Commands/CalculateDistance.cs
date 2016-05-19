@@ -37,11 +37,7 @@ namespace Trains.Core.Presentation.Commands
             var lastChar = nodes.Last();
 
             var startNode = graph.GetNode(firstChar);
-            var searchResult = startNode
-                .DepthFirstTraversal()
-                .Where(x => x.CurrentNode.NodeKey == lastChar);
-
-            var cost = searchResult
+            var cost = startNode
                 .GetRoutes(lastChar)
                 .GetCostByIds(nodes);
 

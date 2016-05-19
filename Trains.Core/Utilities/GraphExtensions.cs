@@ -28,6 +28,5 @@ namespace Trains.Core.Utilities
                 }
             }
         }
-
     }
 }
