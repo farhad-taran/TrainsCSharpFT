@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Trains.Core.DataStructures;
 using Trains.Core.Domain;
@@ -35,7 +36,11 @@ namespace Trains.Core.Presentation.Commands
             var allPossibleRoutes = graph.GetAllPossibleRoutes(lastNodeChar)
                 .Where(x => x.Visited.Count < distance);
 
-            var message = $"{allPossibleRoutes.Count()}";
+            var s = allPossibleRoutes
+                .Select(x =>$"{x.CurrentNode.NodeKey},{string.Join(",", x.Visited.Select(y=>y.NodeKey))}")
+                .OrderBy(x=>x.Length);
+
+            var message = $"{allPossibleRoutes.Count()}{Environment.NewLine}{string.Join(Environment.NewLine,s)}";
 
             return CommandResult.Ok(message);
         }

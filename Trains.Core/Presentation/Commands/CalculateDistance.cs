@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Text.RegularExpressions;
 using Trains.Core.DataStructures;
+using Trains.Core.Domain;
 using Trains.Core.Utilities;
 
 namespace Trains.Core.Presentation.Commands

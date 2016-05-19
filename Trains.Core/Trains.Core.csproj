@@ -53,16 +53,15 @@
     <Compile Include="Presentation\Commands\CalculateNumberOfTrips.cs" />
     <Compile Include="Presentation\Commands\CalculateRoutesWithLessDistance.cs" />
     <Compile Include="Presentation\Commands\CalculateShortestRoute.cs" />
+    <Compile Include="Presentation\Commands\CommandResult.cs" />
     <Compile Include="Presentation\Commands\ICommand.cs" />
     <Compile Include="Presentation\Commands\ResetCommand.cs" />
     <Compile Include="Presentation\ConsoleService.cs" />
     <Compile Include="Domain\GraphSearch.cs" />
     <Compile Include="Presentation\MenuItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilities\GraphExtensions.cs" />
     <Compile Include="Utilities\IEnumerableExtensions.cs" />
     <Compile Include="Utilities\RouteCostExtensions.cs" />
-    <Compile Include="Utilities\SearchResultExtensions.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

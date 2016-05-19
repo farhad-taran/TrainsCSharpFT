@@ -64,25 +64,4 @@ namespace Trains.Core.Presentation.Commands
             return CommandResult.Ok($"Inserted directed edges for {input}");
         }
     }
-
-    public class CommandResult
-    {
-        public string Message;
-        public bool Success { get; }
-        private CommandResult(bool success, string message)
-        {
-            Success = success;
-            Message = message;
-        }
-
-        public static CommandResult Ok(string message)
-        {
-            return new CommandResult(true, message);
-        }
-
-        public static CommandResult Fail(string message)
-        {
-            return new CommandResult(false, string.IsNullOrEmpty(message) ? "Invalid input" : message);
-        }
-    }
 }

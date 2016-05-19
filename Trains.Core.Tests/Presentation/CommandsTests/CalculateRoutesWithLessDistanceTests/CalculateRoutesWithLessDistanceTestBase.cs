@@ -81,7 +81,12 @@ namespace Trains.Core.Tests.Presentation.CommandsTests.CalculateRoutesWithLessDi
         public void ReturnsOkResult()
         {
             Assert.IsTrue(CommandResult.Success);
-            Assert.AreEqual("7", CommandResult.Message);
+            string expectedMessage = "4\r\n"+
+                "C,B,C\r\n"+
+                "C,E,B,C\r\n"+
+                "C,A,E,B,C\r\n"+
+                "C,D,E,B,C";               
+            Assert.AreEqual(expectedMessage, CommandResult.Message);
         }
     }
 }
